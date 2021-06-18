@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="utf-8" />
+        <title>个人博客</title>
+        <link type="text/css" rel="stylesheet" href="webStyle.css">
+        <style>
+            body {
+                background-image: url("img/background.jpg");
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                background-size: cover;
+                z-index: 80;
+            }
+
+            #blogCover {
+                position: absolute;
+                top: 0%;  
+                left: 0%;  
+                width: 100%;  
+                height: 100%;
+                text-align: center;
+                background-color: green;
+                z-index: 900;
+            }
+            #leftPart {
+                position: fixed;
+                top: 0%;
+                left: 10px;
+                width: 320px;
+                height: 100%;
+                background-color: #39A5F7;
+            }
+            #headPortraitContainer {
+                width: 120px;
+                height: 120px;
+                margin: 100px auto;
+                background: lightcoral;
+                border-radius: 50%;
+            }
+
+            #headPortrait {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-image: url("img/pic.jpeg");
+                transform: scale(1);
+                transition: all 1s;
+            }
+            #headPortraitContainer:hover #headPortrait {
+                transform: scale(0.85);
+                box-shadow: 0 0 0 5px white;
+            }
+            #menuContainer {
+                width: 100%;
+                height: 240px;
+                margin: 100px auto;
+                position: relative;
+                box-sizing: border-box;
+            }
+            #menuContainer .menu {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                text-align: center;
+            }
+            .menu li {
+                width: 100%;
+                height: 60px;
+                line-height: 60px;
+                font-size: 18px;
+                
+            }
+            .menu li:first-child {
+                border: 0;
+            }
+            .menuChecked {
+                width: 100%;
+                height: 60px;
+                position: absolute;
+                top: 0;
+                left: 0%;
+                background-color: #39A5F7;
+                opacity: 1;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+                transition: top 0.5s;
+                z-index: 1;
+                overflow: hidden;
+            }
+            .menuChecked .menu {
+                width: 100%;
+                height: 60px;
+                position: absolute;
+                transition: top 0.8s;
+            }
+            .menuChecked .menu li {
+                background: transparent;
+                border-top: none;
+                color: white;
+            }
+            .menuHover {
+                width: 100%;
+                height: 60px;
+                position: absolute;
+                z-index: 2;
+            }
+            .menuHover1 {
+                top: 0px;
+            }
+            .menuHover1:hover~.menuChecked {
+                top: 0px;
+            }
+            .menuHover1:hover~.menuChecked .menu {
+                top: 0px;
+            }
+            .menuHover2{
+                top: 60px;
+            }
+            .menuHover2:hover~.menuChecked {
+                top: 60px;
+            }
+            .menuHover2:hover~.menuChecked .menu {
+                top: -60px;
+            }
+            .menuHover3{
+                top: 120px;
+            }
+            .menuHover3:hover~.menuChecked {
+                top: 120px;
+            }
+            .menuHover3:hover~.menuChecked .menu{
+                top: -120px;
+            }
+            .menuHover4{
+                top: 180px;
+            }
+            .menuHover4:hover~.menuChecked {
+                top: 180px;
+            }
+            .menuHover4:hover~.menuChecked .menu{
+                top: -180px;
+            }
+
+            #mainPart {
+                position: absolute;
+                top: 00%;
+                left: 330px;
+                background-color: lightgreen;
+            }
+            .titleList {
+                position: relative;
+                margin: 100px 50px;
+                
+            }
+            .titleBlockDiv {
+                position: relative;
+                width: 100%;
+                margin: 0px 10px;
+                padding: 5px;
+                overflow: hidden;
+            }
+            .contentBlock {
+                height: 0px;
+                width: 100%;
+                overflow: hidden;
+                transition: all 1s;
+            }
+            .titleBlockDiv:hover {
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+                background-color: rgba(0,0,0,0.1);
+            }
+            .titleBlockDiv:hover .contentBlock {
+                height: 100px;
+            }
+            .titleMessage {
+                color: grey;
+                font-size: small;
+            }
+            .titleContent {
+                color:rgba(0, 0, 0, 0.7);
+            }
+            footer {
+                float:right;
+                font-size: small;
+                color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="blogCover" style="display: none;opacity: 1;">
+            <h1>个人博客</h1>
+            <button onClick="startHideCover()">继续</button>
+        </div>
+        <div id="leftPart">
+            <div id="headPortraitContainer">
+                <div id="headPortrait"></div>
+            </div>
+            <div id="menuContainer">
+                <ul class="menu">
+                    <li>Home</li>
+                    <li>Tags</li>
+                    <li>About</li>
+                    <li>Chat</li>
+                </ul>
+                <!-- 用来代表原本菜单中的三个选项（li元素） -->
+                <div class="menuHover menuHover1"></div>
+                <div class="menuHover menuHover2"></div>
+                <div class="menuHover menuHover3"></div>
+                <div class="menuHover menuHover4"></div>
+                <div class="menuChecked">
+                    <ul class="menu">
+                        <li>Home</li>
+                        <li>Tags</li>
+                        <li>About</li>
+                        <li>Chat</li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+        <div id="mainPart">
+            <div class="titleList">
+                <h1>全部文章</h1>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <div class="titleBlockDiv">
+                    <div class="titleBlock">
+                        <h2><a>标题1</a></h2>
+                        <p class="titleMessage">@张三 &nbsp;|&nbsp; Jan 1, 2021 </p>
+                    </div>
+                    <div class="contentBlock">
+                        <p class="titleContent">
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
+                        </p>
+                    </div>
+                    <footer><a>Read More ...</a></footer>
+                </div>
+                <input type="button" >
+            </div>
+        </div>
+        
+        <script>
+            function startHideCover() {
+                hideCover();
+            }
+            function hideCover() {
+                var cover = document.getElementById("blogCover");
+                var opacityNum = cover.style.opacity;
+                if (opacityNum<=0)
+                    cover.style.display = "none";
+                else
+                {
+                    cover.style.opacity = opacityNum-0.05;
+                    setTimeout("hideCover()", 20);
+                }
+            }
+        </script>
+    </body>
+</html>
