@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8" />
+        <title>个人博客</title>
+        <link rel="stylesheet" type="text/css" href="css/general.css" />
+        <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
+        <style>
+            .menuChecked {
+                top: 60px;
+            }
+            .menuChecked .menu {
+                top: -60px;
+            }
+            .tagListDiv {
+                position: relative;
+                margin: 100px 50px;
+            }
+            .tagList {
+                position: relative;
+                padding: 0px 10px;
+            }
+            
+            .titleBlockDiv {
+                position: relative;
+                width: 100%;
+                padding: 5px;
+                overflow: hidden;
+            }
+            
+            .tagBlock {
+                padding:10px;
+            }
+            .tag {
+                display: inline-block;
+                color: green;
+                padding: 5px;
+                margin: 10px 5px;
+                border-radius: 10%;
+                font-size: large;
+            }
+            .tag:hover {
+                background-color: green;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="blogCover" style="display: none;opacity: 1;">
+            <h1>个人博客</h1>
+            <button onClick="startHideCover()">继续</button>
+        </div>
+        <div id="leftPart">
+            <div id="nameContainer">
+                <div id="headPortraitContainer">
+                    <div id="headPortrait"></div>
+                </div>
+                <div id="blogName">
+                    <h2>XX的个人博客</h2>
+                </div>
+            </div>
+            <div id="menuContainer">
+                <ul class="menu">
+                    <li>Home</li>
+                    <li>Tags</li>
+                    <li>Files</li>
+                    <li>About</li>
+                </ul>
+                <!-- 用来代表原本菜单中的三个选项（li元素） -->
+                <div class="menuHover menuHover1" onclick="openWebpage('home.html')"></div>
+                <div class="menuHover menuHover2" onclick="openWebpage('tags.html')"></div>
+                <div class="menuHover menuHover3" onclick="openWebpage('files.html')"></div>
+                <div class="menuHover menuHover4" onclick="openWebpage('about.html')"></div>
+                <div class="menuChecked"">
+                    <ul class="menu">
+                        <li>Home</li>
+                        <li>Tags</li>
+                        <li>Files</li>
+                        <li>About</li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+        <div id="mainPart">
+            <div class="tagListDiv">
+                <h1>标签</h1>
+                <div class="tagList">
+                    <div class="search">
+                        <form action="#" method="post">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input type="text" name="condition" placeholder="Searching...">
+                            <input type="submit" value="搜索">
+                        </form> 
+                    </div>
+                    <div style="clear:both"></div>
+                    <div class="tagBlock">
+                        <a class="tag">标签1</a>
+                        <a class="tag">标签2</a>
+                        <a class="tag">标签3</a>
+                        <a class="tag">标签1</a>
+                        <a class="tag">标签2</a>
+                        <a class="tag">标签3</a>
+                        <a class="tag">标签1</a>
+                        <a class="tag">标签2</a>
+                        <a class="tag">标签3</a>
+                        <a class="tag">标签1</a>
+                        <a class="tag">标签2</a>
+                        <a class="tag">标签3</a>
+                        <a class="tag">标签1</a>
+                        <a class="tag">标签2</a>
+                        <a class="tag">标签3</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            window.onscroll = function() {
+                var sl=0-Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
+                var style = document.defaultView.getComputedStyle(document.getElementById('leftPart'));  
+                var leftWidth = parseInt(style.left);
+                if (leftWidth>=0)
+                    sl += parseInt(style.left);
+                document.getElementById('leftPart').style.left = sl+'px';
+            };
+            window.onresize = function() {
+                var clientWidth = Math.max(document.body.clientWidth, document.documentElement.clientWidth);
+                var leftWidth = parseInt(document.defaultView.getComputedStyle(document.getElementById("leftPart")).width);
+                var mainWidth = parseInt(document.defaultView.getComputedStyle(document.getElementById("mainPart")).width);
+                var cl=Math.max(Math.ceil((clientWidth-leftWidth-mainWidth)/2), 0);
+                document.getElementById('leftPart').style.left = cl+'px';
+                document.getElementById('mainPart').style.left = (360+cl)+'px';
+            }
+            window.onresize();
+            function openWebpage(path) {
+                window.location.href = path;
+            }
+        </script>
+    </body>
+</html>

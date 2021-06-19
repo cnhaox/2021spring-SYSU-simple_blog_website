@@ -1,0 +1,190 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    background-image: url("../img/background.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 80;
+}
+
+#leftPart {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 360px;
+    height: 100%;
+    /*background-color: #39A5F7;*/
+    background-color: rgba(255,255,255,0.4);
+}
+#nameContainer {
+    margin: 80px auto;
+}
+#headPortraitContainer {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    background: rgb(57,165,247);
+    border-radius: 50%;
+}
+#headPortrait {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: url("../img/pic.jpeg");
+    transform: scale(1);
+    transition: all 1s;
+}
+#headPortraitContainer:hover #headPortrait {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 8px white;
+}
+#blogName {
+    text-align: center;
+    color: lightblue;
+}
+#menuContainer {
+    width: 100%;
+    height: 240px;
+    margin: 100px auto;
+    position: relative;
+    box-sizing: border-box;
+}
+#menuContainer .menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+.menu li {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    
+}
+.menu li:first-child {
+    border: 0;
+}
+.menuChecked {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    top: 120px;
+    left: 0%;
+    background-color: rgba(57,165,247,1);
+    opacity: 1;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    transition: top 0.5s;
+    z-index: 1;
+    overflow: hidden;
+}
+.menuChecked .menu {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    transition: top 0.8s;
+}
+.menuChecked .menu li {
+    background: transparent;
+    border-top: none;
+    color: white;
+}
+.menuHover {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
+}
+.menuHover1 {
+    top: 0px;
+}
+.menuHover1:hover~.menuChecked {
+    top: 0px;
+}
+.menuHover1:hover~.menuChecked .menu {
+    top: 0px;
+}
+.menuHover2{
+    top: 60px;
+}
+.menuHover2:hover~.menuChecked {
+    top: 60px;
+}
+.menuHover2:hover~.menuChecked .menu {
+    top: -60px;
+}
+.menuHover3{
+    top: 120px;
+}
+.menuHover3:hover~.menuChecked {
+    top: 120px;
+}
+.menuHover3:hover~.menuChecked .menu{
+    top: -120px;
+}
+.menuHover4{
+    top: 180px;
+}
+.menuHover4:hover~.menuChecked {
+    top: 180px;
+}
+.menuHover4:hover~.menuChecked .menu{
+    top: -180px;
+}
+
+#mainPart {
+    position: absolute;
+    min-height: 100%;
+    min-width: 600px;
+    max-width: 1000px;
+    top: 0px;
+    left: 360px;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.search {
+    float: right;
+    position: relative;
+    height: 40px;
+    width: 400px;
+    margin: 10px 0px;
+}
+.search form{
+    width: 100%;
+    height: 100%;
+}
+.search form input:nth-child(2){
+    width: 320px;
+    height: 100%;
+    font-size: 16px;
+    text-indent: 30px;
+    border: none;
+    float: left;
+    background-color: rgba(255,255,255,0.2);
+}
+.search form input:nth-child(2):hover {
+    box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+}
+.search form input:nth-child(3){
+    width: 80px;
+    height: 100%;
+    font-size: 16px;
+    letter-spacing: 5px;
+    border: none;
+    color: white;
+    background-color: rgba(57,165,247,1);
+    cursor: pointer;
+    text-align: center;
+}
+.search form input:nth-child(3):hover {
+    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.4);
+}
+.search form i {
+    position: absolute;
+    left: 0px;
+    margin: 10px;
+}
