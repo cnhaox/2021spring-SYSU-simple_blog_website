@@ -12,63 +12,24 @@
             .menuChecked .menu {
                 top: -180px;
             }
-            .titleListDiv {
+            .aboutDivList {
                 position: relative;
                 margin: 100px 50px;
             }
-            .titleList {
-                position: relative;
-                padding: 0px 10px;
-            }
-            .titleBlockDiv {
+            .aboutDiv {
                 position: relative;
                 width: 100%;
-                padding: 5px;
-                overflow: hidden;
+                margin: 20px;
             }
-            .contentBlock {
-                height: 0px;
-                width: 100%;
-                overflow: hidden;
-                transition: all 1s;
+            .aboutDiv h2 {
+                margin: 10px 0px;
             }
-            .titleBlockDiv:hover {
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-                background-color: rgba(0,0,0,0.1);
+            .aboutDiv p {
+                margin: 5px 0px;
+                word-wrap:normal;
             }
-            .titleBlockDiv:hover .contentBlock {
-                height: 100px;
-            }
-            .titleMessage {
-                color: grey;
-                font-size: small;
-            }
-            .titleContent {
-                color:rgba(0, 0, 0, 0.7);
-            }
-            footer {
-                float:right;
-                font-size: small;
-                color: blue;
-            }
-            #prevLink {
-                float:left;
-            }
-            #nextLink {
-                float: right;
-            }
-            .pageButton {
-                margin: 10px 5px;
-                width: 70px;
-                height: 30px;
-                border: none;
-                background-color: rgba(57,165,247,0.8);
-                color: white;
-                cursor: pointer;
-            }
-            .pageButton:hover {
-                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
-            }
+
+
         </style>
     </head>
     <body>
@@ -105,10 +66,18 @@
            
         </div>
         <div id="mainPart">
-            <div class="titleListDiv">
-                <h1>关于我</h1>
-                <div class="titleList">
-                    
+            <div class="aboutDivList">
+                <h1>About Me</h1>
+                <div class="aboutDiv">
+                    <h2>个人信息</h2>
+                    <p>中文名：</p>
+                    <p>昵称：</p>
+                    <p>就读学校：</p>
+                    <p>联系方式：</p>
+                </div>
+                <div class="aboutDiv">
+                    <h2>博客信息</h2>
+                    <p>XXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXXX XXXXXXXXXXXXX XXXXX XXX XXXX XXXXXX XXXXXXX XXXXXXXX  XXXXXXX XXXXXXXXXXXXX XXXXXXX XXXXXXXXXXX XXXXXXXXX XXXXXXXXXXXX  XXXXXX XXXXXXX  XXXXXXXX XXXXXXXXXXX XXXXXXXXX</p>
                 </div>
             </div>
         </div>
