@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
-encoding//src/main/webapp/select.jsp=UTF-8
+encoding//src/main/webapp/delete_demo.jsp=UTF-8
+encoding//src/main/webapp/insert_demo.jsp=UTF-8
+encoding//src/main/webapp/select_demo.jsp=UTF-8
 encoding//src/main/webapp/update.jsp=UTF-8
+encoding//src/main/webapp/update_demo.jsp=UTF-8

@@ -307,5 +307,9 @@
                     return false;
             }
         </script>
+        <script src="./js/marked.min.js"></script>
+        <script>
+            document.getElementById('articleContainer').innerHTML = marked('# Marked in browser\n\nRendered by **marked**.![](./img/pic.jpeg)')
+        </script>
     </body>
 </html>

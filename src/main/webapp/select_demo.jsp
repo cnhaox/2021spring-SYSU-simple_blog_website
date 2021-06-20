@@ -10,7 +10,8 @@
     StringBuilder table = new StringBuilder();
     if (request.getMethod().equalsIgnoreCase("post"))
     {
-        try{
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectString, user, pwd);
             Statement stmt = con.createStatement();
@@ -32,7 +33,8 @@
             stmt.close();
             con.close();
         }
-        catch (Exception e){
+        catch (Exception e)
+        {
             msg = e.getMessage();
         }
     }
@@ -47,7 +49,7 @@
 	<body>
 		<div class="container">
 			<h1>select</h1>
-            <form action = "select.jsp" method = "post" name = "f">
+            <form action = "select_demo.jsp" method = "post" name = "f">
                 AID<input id = "AID" name = "AID" type = "text">
                 <input name = "select" type = "submit" value = "select">
             </form>

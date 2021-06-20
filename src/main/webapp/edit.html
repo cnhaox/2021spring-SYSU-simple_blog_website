@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8" />
+        <title>个人博客</title>
+        <link rel="stylesheet" type="text/css" href="css/general.css" />
+        <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
+        <style>
+            .menuChecked {
+                top: 0px;
+            }
+            .menuChecked .menu {
+                top: -0px;
+            }
+            .manage {
+                float: right;
+                position: relative;
+            }
+            .manageButton {
+                margin: 10px 5px;
+                width: 50px;
+                height: 30px;
+                border: none;
+                background-color: rgba(57,165,247,1);
+                color: white;
+                cursor: pointer;
+            }
+            .manageButton:hover {
+                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+            }
+            .titleListDiv {
+                position: relative;
+                margin: 100px 50px;
+            }
+            .titleList {
+                position: relative;
+                padding: 0px 10px;
+            }
+            .titleBlockDiv {
+                position: relative;
+                width: 100%;
+                padding: 5px;
+                overflow: hidden;
+            }
+            .contentBlock {
+                height: 0px;
+                width: 100%;
+                overflow: hidden;
+                transition: all 1s;
+            }
+            .titleBlockDiv:hover {
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+                background-color: rgba(0,0,0,0.1);
+            }
+            .titleBlockDiv:hover .contentBlock {
+                height: 100px;
+            }
+            .titleMessage {
+                color: grey;
+                font-size: small;
+            }
+            .titleContent {
+                color:rgba(0, 0, 0, 0.7);
+            }
+            footer {
+                float:right;
+                font-size: small;
+                color: blue;
+            }/*
+            #prevLink {
+                float:left;
+            }
+            #nextLink {
+                float: right;
+            }
+            .pageButton {
+                margin: 10px 5px;
+                width: 70px;
+                height: 30px;
+                border: none;
+                background-color: rgba(57,165,247,0.8);
+                color: white;
+                cursor: pointer;
+            }
+            .pageButton:hover {
+                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+            }*/
+            #titleList2 {
+                display:none;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="leftPart">
+            <div id="nameContainer">
+                <div id="headPortraitContainer">
+                    <div id="headPortrait"></div>
+                </div>
+                <div id="blogName">
+                    <h2>XX的个人博客</h2>
+                </div>
+            </div>
+            <div id="menuContainer">
+                <ul class="menu">
+                    <li>Home</li>
+                    <li>Tags</li>
+                    <li>Files</li>
+                    <li>About</li>
+                </ul>
+                <!-- 用来代表原本菜单中的三个选项（li元素） -->
+                <div class="menuHover menuHover1" onclick="openWebpage('home.html')"></div>
+                <div class="menuHover menuHover2" onclick="openWebpage('tags.html')"></div>
+                <div class="menuHover menuHover3" onclick="openWebpage('files.html')"></div>
+                <div class="menuHover menuHover4" onclick="openWebpage('about.html')"></div>
+                <div class="menuChecked"">
+                    <ul class="menu">
+                        <li>Home</li>
+                        <li>Tags</li>
+                        <li>Files</li>
+                        <li>About</li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+        <div id="mainPart">
+            
+        </div>
+        
+        <script>
+            window.onscroll = function() {
+                var sl=0-Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
+                var style = document.defaultView.getComputedStyle(document.getElementById('leftPart'));  
+                var leftWidth = parseInt(style.left);
+                if (leftWidth>=0)
+                    sl += parseInt(style.left);
+                document.getElementById('leftPart').style.left = sl+'px';
+            };
+            window.onresize = function() {
+                var clientWidth = Math.max(document.body.clientWidth, document.documentElement.clientWidth);
+                var leftWidth = parseInt(document.defaultView.getComputedStyle(document.getElementById("leftPart")).width);
+                var mainWidth = parseInt(document.defaultView.getComputedStyle(document.getElementById("mainPart")).width);
+                var cl=Math.max(Math.ceil((clientWidth-leftWidth-mainWidth)/2), 0);
+                document.getElementById('leftPart').style.left = cl+'px';
+                document.getElementById('mainPart').style.left = (360+cl)+'px';
+            }
+            window.onresize();
+            function openWebpage(path) {
+                window.location.href = path;
+            }
+            function manageArticle(boolVal) {
+                if (boolVal)
+                {
+                    document.getElementById("titleList1").style.display = "none";
+                    document.getElementById("titleList2").style.display = "block";
+                }
+                else
+                {
+                    document.getElementById("titleList2").style.display = "none";
+                    document.getElementById("titleList1").style.display = "block";
+                }
+            }
+            function checkDelete(obj) {
+                var articleName = obj.children[0].value;
+                var r=confirm("是否确认删除 "+articleName+" ?");
+                if (r)
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+    </body>
+</html>
