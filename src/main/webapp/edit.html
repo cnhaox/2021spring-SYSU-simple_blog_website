@@ -5,74 +5,13 @@
         <title>个人博客</title>
         <link rel="stylesheet" type="text/css" href="css/general.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="css/edit.css" />
         <style>
             .menuChecked {
                 top: 0px;
             }
             .menuChecked .menu {
                 top: -0px;
-            }
-            .manage {
-                float: right;
-                position: relative;
-            }
-            .manageButton {
-                margin: 10px 5px;
-                width: 50px;
-                height: 30px;
-                border: none;
-                background-color: rgba(57,165,247,1);
-                color: white;
-                cursor: pointer;
-            }
-            .manageButton:hover {
-                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
-            }
-            .edit-container {
-                position: relative;
-                margin: 100px 50px;
-            }
-            .edit-container span {
-                font-weight: bold;
-                font-size: 16px;
-            }
-            .edit-container-img,
-            .edit-container-title,
-            .edit-container-author,
-            .edit-container-article,
-            .img-list {
-                margin: 20px 0px;
-            }
-            .edit-container-title input,.edit-container-author input {
-                font-size: 16px;
-                padding: 10px 15px;
-                border: 1px solid lightgray;
-                border-radius: 0%;
-                background-color: rgba(255,255,255,0.4);
-                border: 1px solid gray;
-            }
-            .edit-container-article textarea {
-                display: block;
-                width: 810px;
-                min-height: 150px;
-                padding: 5px;
-                resize: vertical;
-
-                margin: 0;
-                font-size: 16px;
-                line-height: 1.6;
-
-                background-color: rgba(255,255,255,0.4);
-
-                color: rgba(10,10,10,1);
-                border-radius: 0;
-                outline: none;
-                box-shadow: none;
-                overflow: visible;
-                border: 1px solid gray;
-            }
-            .edit-container-submit {
-                float: right;
             }
         </style>
     </head>
@@ -146,14 +85,17 @@
                     </form>
                 </div>
                 <div class="edit-container-title">
-                    <span>标题</span>：<input type="text" form="newArticle" name="title" value="">
+                    <span>标题</span>：<input type="text" form="newArticle" name="title" placeholder="请输入标题" value="">
                 </div>
                 <div class="edit-container-author">
-                    <span>作者</span>：<input type="text" form="newArticle" name="author" value="">
+                    <span>作者</span>：<input type="text" form="newArticle" name="author" placeholder="请输入作者名" value="">
+                </div>
+                <div class="edit-container-tags">
+                    <span>标签</span>：<input type="text" form="newArticle" name="tags" placeholder="请输入标签，标签之间用英文分号(;)隔开" value="">
                 </div>
                 <div class="edit-container-article">
                     <p><span>正文</span>：</p>
-                    <textarea form="ReplyFormCID" placeholder="请在此处使用MarkDown语法输入正文内容。（插入图片时先上传图片，然后使用上述列表展示的图片路径）"></textarea>
+                    <textarea form="ReplyFormCID" name="article" placeholder="请在此处使用MarkDown语法输入正文内容。（插入图片时先上传图片，然后使用上述列表展示的图片路径）"></textarea>
                 </div>
                 <div class="edit-container-submit">
                     <input type="button" class="manageButton" onclick="cancelPost()" value="取消"/>

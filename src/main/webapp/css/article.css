@@ -1,0 +1,19 @@
+#article-container {
+    position: relative;
+    margin: 100px 50px;
+}
+#article-container * {
+    margin: 5px 0px;
+}
+#article-container p {
+    text-indent: 2em;
+}
+#article-container .article-mes, #article-container .article-tags {
+    margin: 10px 5px;
+}
+.tag-span {
+    color: green;
+}
+.tag-header {
+    font-weight: bold;
+}

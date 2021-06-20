@@ -1,0 +1,31 @@
+.tagListDiv {
+    position: relative;
+    margin: 100px 50px;
+}
+.tagList {
+    position: relative;
+    padding: 0px 10px;
+}
+
+.titleBlockDiv {
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.tagBlock {
+    padding:10px;
+}
+.tag {
+    display: inline-block;
+    color: green;
+    padding: 5px;
+    margin: 10px 5px;
+    border-radius: 10%;
+    font-size: large;
+}
+.tag:hover {
+    background-color: green;
+    color: white;
+}

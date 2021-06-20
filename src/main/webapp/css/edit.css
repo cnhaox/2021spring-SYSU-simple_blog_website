@@ -1,0 +1,65 @@
+.manage {
+    float: right;
+    position: relative;
+}
+.manageButton {
+    margin: 10px 5px;
+    width: 50px;
+    height: 30px;
+    border: none;
+    background-color: rgba(57,165,247,1);
+    color: white;
+    cursor: pointer;
+}
+.manageButton:hover {
+    box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+}
+.edit-container {
+    position: relative;
+    margin: 100px 50px;
+}
+.edit-container span {
+    font-weight: bold;
+    font-size: 16px;
+}
+.edit-container-img,
+.edit-container-title,
+.edit-container-author,
+.edit-container-article,
+.img-list {
+    margin: 20px 0px;
+}
+.edit-container-title input,
+.edit-container-author input,
+.edit-container-tags input {
+    font-size: 16px;
+    width: 300px;
+    padding: 10px 15px;
+    border: 1px solid lightgray;
+    border-radius: 0%;
+    background-color: rgba(255,255,255,0.4);
+    border: 1px solid gray;
+}
+.edit-container-article textarea {
+    display: block;
+    width: 810px;
+    min-height: 150px;
+    padding: 5px;
+    resize: vertical;
+
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+
+    background-color: rgba(255,255,255,0.4);
+
+    color: rgba(10,10,10,1);
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    overflow: visible;
+    border: 1px solid gray;
+}
+.edit-container-submit {
+    float: right;
+}
