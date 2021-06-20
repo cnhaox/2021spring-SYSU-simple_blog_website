@@ -1,5 +1,5 @@
-create database blog;
-use blog;
+create database blog_18308045;
+use blog_18308045;
 create table Article
 (
 	AID int,
@@ -10,9 +10,10 @@ create table Article
 );
 create table Tag
 (
-	TID int,
+	AID int,
 	TName varchar(10),
-	primary key(TID)
+	foreign key(AID) references Article(AID),
+	primary key(AID)
 );
 create table Text
 (
@@ -35,14 +36,6 @@ create table File
 	FName varchar(10),
 	primary key(FName)
 );
-create table Article_Tag
-(
-	AID int,
-	TID int,
-	foreign key(AID) references Article(AID),
-	foreign key(TID) references Tag(TID),
-	primary key(AID, TID)
-);
 create table Article_Comment
 (
 	AID int,
@@ -59,6 +52,6 @@ create table Comment_Comment
 	foreign key(C2ID) references Comment(CID),
 	primary key(C1ID, C2ID)
 );
-create user 'blogger'@'%' identified by '123';
-grant all privileges on blog.* to blogger@'%' identified by '123';
+create user 'blogger_18308013'@'%' identified by '18340197';
+grant all privileges on blog_18308045.* to blogger_18308013@'%' identified by '18340197';
 flush  privileges;
