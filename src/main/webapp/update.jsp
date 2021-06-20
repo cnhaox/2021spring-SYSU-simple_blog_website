@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="java.text.*"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	String msg ="";
@@ -10,44 +9,36 @@
     String pwd = "123";
     if (request.getMethod().equalsIgnoreCase("post"))
     {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection(connectString, user, pwd);
-        Statement stmt = con.createStatement();
+        Enumeration<String> params = request.getParameterNames();
+        String redirect = params.nextElement();
         try
         {
-            String AID = request.getParameter("AID");
-            String title = request.getParameter("Title");
-            String author = request.getParameter("Author");
-            SimpleDateFormat DTfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String fmt = "update Article set Title='%s',Author='%s',ATime='%s' where AID=%s";
-            String sql = String.format(fmt, title, author, DTfmt.format(new java.util.Date()), AID);
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectString, user, pwd);
+            Statement stmt = con.createStatement();
+        	String table = params.nextElement();
+        	String key_name = params.nextElement();
+            String key = "'" + request.getParameter(key_name) + "'";
+        	int attr_num = Integer.parseInt(params.nextElement());
+        	String set = "";
+            String attr = params.nextElement();
+            set += attr + "='" + request.getParameter(attr) + "'";
+        	for (int i = 1; i < attr_num; ++i)
+        	{
+                attr = params.nextElement();
+                set += "," + attr + "='" + request.getParameter(attr) + "'";
+        	}
+            String fmt = "update %s set %s where %s=%s";
+            String sql = String.format(fmt, table, set, key_name, key);
             int cnt = stmt.executeUpdate(sql);
-            if (cnt > 0) msg = "Success!";
-            stmt.close(); con.close();
+            msg = "" + cnt;
+            stmt.close();
+            con.close();
         }
         catch (Exception e)
         {
             msg = e.getMessage();
         }
+        response.sendRedirect(redirect+"?msg="+msg);
     }
 %>
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>update</title>
-        <style>
-        </style>
-    </head>
-    <body>
-        <div class = "container">
-            <h1>update</h1>
-            <form action = "update.jsp" method = "post" name = "f">
-                AID:<input id = "AID" name = "AID" type = "text"><br>
-                Title:<input id = "Title" name = "Title" type = "text"><br>
-                Author:<input id = "Author" name = "Author" type = "text"><br>
-                <input name = "update" type = "submit" value = "update">
-            </form>
-            <%=msg%>
-        </div>
-    </body>
-</html>

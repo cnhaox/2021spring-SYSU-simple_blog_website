@@ -12,6 +12,9 @@
             .menuChecked .menu {
                 top: 0px;
             }
+            #articleContainer {
+           		padding: 10px;	
+            }
         </style>
     </head>
     <body>
@@ -78,6 +81,10 @@
             function openWebpage(path) {
                 window.location.href = path;
             }
+        </script>
+        <script src="./js/marked.min.js"></script>
+        <script>
+            document.getElementById('articleContainer').innerHTML = marked('# Marked in browser\n\nRendered by **marked**.![](./img/pic.jpeg)')
         </script>
     </body>
 </html>

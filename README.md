@@ -1,6 +1,10 @@
 # simple-blog-website
 
-## Database
+## 部署
+
+/src/init.sql
+
+## 数据库
 
 ### 实体
 
@@ -76,3 +80,85 @@
     - foreign key(C1ID) references Comment(CID),
     - foreign key(C2ID) references Comment(CID),
     - primary key(C1ID, C2ID)
+
+### 统一接口
+
+#### 说明
+
+1. 未实现select的统一接口，因为select操作不太统一。
+2. insert所有属性（包括主键）顺序可调换。
+3. update按照主键值搜索，更新任意指定属性（主键外属性顺序可调换）。
+4. delete按照主键值搜索，删除。
+5. 部分datetime类型属性需要使用以下包。
+
+    ```jsp
+    <!-- 时间属性用到的包 -->
+    <%@ page import="java.time.*"%>
+    ```
+
+6. 完整示例代码见insert_demo.jsp，update_demo.jsp，delete_demo.jsp。
+
+#### 使用样例
+
+1. insert.jsp
+
+    ```jsp
+    <form action = "insert.jsp" method = "post" name = "f">
+        <!-- 重定位地址 -->
+        <input name = "insert_demo.jsp" type = "hidden">
+        <!-- 表名 -->
+        <input name = "Article" type = "hidden">
+        <!-- 表属性数量 -->
+        <input name = "4" type = "hidden">
+        <!-- 主键和普通属性 -->
+        AID:<input name = "AID" type = "text"><br>
+        Title:<input name = "Title" type = "text"><br>
+        Author:<input name = "Author" type = "text"><br>
+        <!-- 时间属性 -->
+        <input name = "ATime" value = <%=LocalDateTime.now()%> type = "hidden">
+        <!-- 这个只是个按钮，不算属性 -->
+        <input name = "insert" type = "submit" value = "insert">
+    </form>
+    <!-- 返回msg -->
+    <%=request.getParameter("msg")%>
+    ```
+
+2. update.jsp
+
+    ```jsp
+    <form action = "update.jsp" method = "post" name = "f">
+        <!-- 重定位地址 -->
+        <input name = "update_demo.jsp" type = "hidden">
+        <!-- 表名 -->
+        <input name = "Article" type = "hidden">
+        <!-- 主键 -->
+        AID:<input name = "AID" type = "text"><br>
+        <!-- 需要更新的属性数量 -->
+        <input name = "2" type = "hidden">
+        <!-- 普通属性 -->
+        Title:<input name = "Title" type = "text"><br>
+        <!-- 时间属性 -->
+        <input name = "ATime" value = <%=LocalDateTime.now()%> type = "hidden">
+        <!-- 这个只是个按钮，不算属性 -->
+        <input name = "update" type = "submit" value = "update">
+    </form>
+    <!-- 返回msg -->
+    <%=request.getParameter("msg")%>
+    ```
+
+3. delete.jsp
+
+    ```jsp
+    <form action = "delete.jsp" method = "post" name = "f">
+    <!-- 重定位地址 -->
+    <input name = "delete_demo.jsp" type = "hidden">
+    <!-- 表名 -->
+    <input name = "Article" type = "hidden">
+    <!-- 主键 -->
+    AID:<input name = "AID" type = "text"><br>
+    <!-- 这个只是个按钮，不算属性 -->
+    <input name = "delete" type = "submit" value = "delete">
+    </form>
+    <!-- 返回msg -->
+    <%=request.getParameter("msg")%>
+    ```
