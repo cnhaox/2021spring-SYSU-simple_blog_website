@@ -243,6 +243,20 @@ body {
     box-shadow: inset 0px 0px 5px rgba(0,0,0,0.4);
 }
 
+.editButton {
+    margin: 10px 5px;
+    width: 70px;
+    height: 30px;
+    border: none;
+    background-color: rgba(109,88,255,0.8);
+    color: white;
+    border-radius: 0%;
+    cursor: pointer;
+}
+.editButton:hover {
+    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.4);
+}
+
 .upload {
     position: relative;
 
