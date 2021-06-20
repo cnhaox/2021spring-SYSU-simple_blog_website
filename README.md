@@ -9,151 +9,112 @@
 ### 实体
 
 1. Article
-    - AID
+    - ATime
     - Title
     - Author
-    - CTime
-2. Tag（弱实体）
-    - AID
+2. Tag
     - TName
+    - ATime
 3. Text（弱实体）
-    - AID
+    - ATime
     - AContent
 4. Comment
-    - CID
-    - Nickname
-    - Email
     - CTime
+    - CNickname
+    - CEmail
     - CContent
-5. File
+5. Subcomment
+    - STime
+    - SNickname
+    - SEmail
+    - SContent
+6. File
     - FName
 
 ### 联系
 
 1. Article_Tag
+    - 1Article对多Tag联系
 2. Article_Text
+    - 1对1联系
 3. Article_Comment
-4. Comment_Comment
+    - 1Article对多Comment联系
+4. Comment_Subcomment
+    - 1Comment对多Subcomment联系
+5. Subcomment_Subcomment
+    - 多Subcomment对多Subcomment联系
 
 ### 表
 
 1. Article
-    - AID int
+    - ATime datetime
     - Title varchar(10)
     - Author varchar(10)
-    - ATime datetime
-    - primary key(AID)
+    - primary key(ATime)
 2. Tag
-    - AID int
     - TName varchar(10)
-    - foreign key(AID) references Article(AID)
-    - primary key(AID)
+    - ATime datetime
+    - foreign key(ATime) references Article(ATime)
+    - primary key(TName, ATime)
 3. Text
-    - AID int
+    - ATime datetime
     - AContent longtext
-    - foreign key(AID) references Article(AID)
-    - primary key(AID)
+    - foreign key(ATime) references Article(ATime)
+    - primary key(ATime)
 4. Comment
-    - CID int
-    - Nickname varchar(10)
-    - Email varchar(10)
     - CTime datetime
+    - ATime datetime
+    - CNickname varchar(10)
+    - CEmail varchar(10)
     - CContent text
-    - primary key(CID)
-5. File
+    - foreign key(ATime) references Article(ATime)
+    - primary key(CTime, ATime)
+5. Subcomment
+    - STime datetime
+    - CTime datetime
+    - Target datetime
+    - SNickname varchar(10)
+    - SEmail varchar(10)
+    - SContent text
+    - foreign key(CTime) references Article(CTime)
+    - primary key(STime, CTime)
+6. File
     - FName varchar(10)
     - primary key(FName)
-6. Article_Comment
-    - AID int
-    - CID int
-    - foreign key(AID) references Article(AID)
-    - foreign key(CID) references Comment(CID)
-    - primary key(AID, CID)
-7. Comment_Comment
-    - C1ID int
-    - C2ID int
-    - foreign key(C1ID) references Comment(CID)
-    - foreign key(C2ID) references Comment(CID)
-    - primary key(C1ID, C2ID)
 
 ### 统一接口
 
-#### 说明
-
 1. 未实现select的统一接口，因为select操作不太统一。
-2. insert所有属性（包括主键）顺序可调换。
-3. update按照主键值搜索，更新任意指定属性（主键外属性顺序可调换）。
-4. delete按照主键值搜索，删除。
-5. 部分datetime类型属性需要使用以下包。
+2. update按照主键值搜索，更新任意指定属性（主键外属性顺序可调换）。
+3. delete按照主键值搜索，删除。
+4. 保证request的前四个parameter分别是重定位地址，失败重做次数，表明，主键，如下：
 
     ```jsp
-    <!-- 时间属性用到的包 -->
-    <%@ page import="java.time.*"%>
-    ```
-
-6. 完整示例代码见insert_demo.jsp，update_demo.jsp，delete_demo.jsp。
-
-#### 使用样例
-
-1. insert.jsp
-
-    ```jsp
-    <form action = "insert.jsp" method = "post" name = "f">
-        <!-- 重定位地址 -->
-        <input name = "insert_demo.jsp" type = "hidden">
-        <!-- 表名 -->
-        <input name = "Article" type = "hidden">
-        <!-- 表属性数量 -->
-        <input name = "4" type = "hidden">
-        <!-- 主键和普通属性 -->
-        AID:<input name = "AID" type = "text"><br>
-        Title:<input name = "Title" type = "text"><br>
-        Author:<input name = "Author" type = "text"><br>
-        <!-- 时间属性 -->
-        <input name = "ATime" value = <%=LocalDateTime.now()%> type = "hidden">
-        <!-- 这个只是个按钮，不算属性 -->
-        <input name = "insert" type = "submit" value = "insert">
-    </form>
-    <!-- 返回msg -->
-    <%=request.getParameter("msg")%>
-    ```
-
-2. update.jsp
-
-    ```jsp
-    <form action = "update.jsp" method = "post" name = "f">
-        <!-- 重定位地址 -->
-        <input name = "update_demo.jsp" type = "hidden">
-        <!-- 表名 -->
-        <input name = "Article" type = "hidden">
-        <!-- 主键 -->
-        AID:<input name = "AID" type = "text"><br>
-        <!-- 需要更新的属性数量 -->
-        <input name = "2" type = "hidden">
-        <!-- 普通属性 -->
-        Title:<input name = "Title" type = "text"><br>
-        <!-- 时间属性 -->
-        <input name = "ATime" value = <%=LocalDateTime.now()%> type = "hidden">
-        <!-- 这个只是个按钮，不算属性 -->
-        <input name = "update" type = "submit" value = "update">
-    </form>
-    <!-- 返回msg -->
-    <%=request.getParameter("msg")%>
-    ```
-
-3. delete.jsp
-
-    ```jsp
-    <form action = "delete.jsp" method = "post" name = "f">
     <!-- 重定位地址 -->
-    <input name = "delete_demo.jsp" type = "hidden">
+    <input name = "insert_demo.jsp" type = "hidden">
+    <!-- 失败重做次数 -->
+    <input name = "100" type = "hidden">
     <!-- 表名 -->
     <input name = "Article" type = "hidden">
-    <!-- 主键 -->
-    AID:<input name = "AID" type = "text"><br>
-    <!-- 这个只是个按钮，不算属性 -->
-    <input name = "delete" type = "submit" value = "delete">
-    </form>
-    <!-- 返回msg -->
-    <%=request.getParameter("msg")%>
+    <!-- 主键，时间属性 -->
+    <input name = "datetime" value = "ATime" type = "hidden">
     ```
+
+5. 对于insert和update，还需要其他属性，因此保证request接下来的parameter分别是表其他属性数量，其他属性，如下：
+
+    ```jsp
+    <!-- 表其他属性数量 -->
+    <input name = "2" type = "hidden">
+    <!-- 普通属性 -->
+    Title:<input name = "Title" type = "text"><br>
+    Author:<input name = "Author" type = "text"><br>
+    ```
+
+6. 由于这些操作可能会不断redo，想要使用最后一次redo的datetime作为属性值，则需要name设为"datetime"，value设为属性名，如下：
+
+    ```jsp
+    <!-- 主键，时间属性 -->
+    <input name = "datetime" value = "ATime" type = "hidden">
+    ```
+
+7. 完整示例代码见insert_demo.jsp，update_demo.jsp，delete_demo.jsp。

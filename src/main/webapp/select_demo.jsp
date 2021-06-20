@@ -2,41 +2,36 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%
-	request.setCharacterEncoding("utf-8");
 	String msg ="";
+    StringBuilder table = new StringBuilder();
 	String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
     String user = "blogger_18308013";
     String pwd = "18340197";
-    StringBuilder table = new StringBuilder();
-    if (request.getMethod().equalsIgnoreCase("post"))
+	request.setCharacterEncoding("utf-8");
+    try
     {
-        try
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(connectString, user, pwd);
+        Statement stmt = con.createStatement();
+        String sql = "select * from Article";
+        ResultSet rs = stmt.executeQuery(sql);
+        table.append("<table><tr><th>ATime</th><th>Title</th><th>Author</th></tr>");
+        while(rs.next())
         {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectString, user, pwd);
-            Statement stmt = con.createStatement();
-            String AID = request.getParameter("AID");
-            String fmt = "select * from Article where AID=%s";
-            String sql = String.format(fmt, AID);
-            ResultSet rs = stmt.executeQuery(sql);
-            table.append("<table><tr><th>AID</th><th>Title</th><th>Author</th><th>ATime</th></tr>");
-            while(rs.next())
-            {
-                table.append
-                (String.format(
-                    "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                    rs.getString("AID"), rs.getString("Title"), rs.getString("Author"), rs.getString("ATime")
-                ));
-            }
-            table.append("</table>");
-            rs.close();
-            stmt.close();
-            con.close();
+            table.append
+            (String.format(
+                "<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
+                rs.getString("ATime"), rs.getString("Title"), rs.getString("Author")
+            ));
         }
-        catch (Exception e)
-        {
-            msg = e.getMessage();
-        }
+        table.append("</table>");
+        rs.close();
+        stmt.close();
+        con.close();
+    }
+    catch (Exception e)
+    {
+        msg = e.getMessage();
     }
 %>
 <!DOCTYPE html>
@@ -49,10 +44,6 @@
 	<body>
 		<div class="container">
 			<h1>select</h1>
-            <form action = "select_demo.jsp" method = "post" name = "f">
-                AID<input id = "AID" name = "AID" type = "text">
-                <input name = "select" type = "submit" value = "select">
-            </form>
             <%=table%>
             <%=msg%>
 		</div>
