@@ -19,36 +19,7 @@
             .fileList {
                 position: relative;
                 padding: 0px 10px;
-            }
-
-            #tableStyle td:nth-child(1),th:nth-child(1) {
-                width: 600px;
-            }
-            th {
-                background: rgba(0,0,0,0.2);
-                height: 25px;
-                text-align: center;
-                font-weight: normal;
-            }
-            td {
-                text-align: center;
-            }
-            tr:hover {
-                background-color: rgba(255,255,0,0.1);
-            }
-
-            .downloadButton {
-                margin: 10px 5px;
-                width: 70px;
-                height: 30px;
-                border: none;
-                background-color: rgba(109,88,255,0.8);
-                color: white;
-                border-radius: 0%;
-                cursor: pointer;
-            }
-            .downloadButton i {
-                display: none;
+                margin: 30px 0px;
             }
 
             .upload {
@@ -145,74 +116,58 @@
         </div>
         <div id="mainPart">
             <div class="fileListDiv">
+                <div class="search">
+                    <form action="#" method="post">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input type="text" name="condition" placeholder="Searching...">
+                        <input type="submit" name="search" value="搜索">
+                    </form> 
+                </div>
+                <div style="clear:both"></div>
                 <h1>文件</h1>
                 <div class="fileList">
-                    <div class="search">
-                        <form action="#" method="post">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" name="condition" placeholder="Searching...">
-                            <input type="submit" value="搜索">
-                        </form> 
-                    </div>
-                    <div style="clear:both"></div>
                     <table class="tableStyle">
                         <tr>
                             <th>文件名</th>
                             <th>操作</th>
                         </tr>
                         <tr>
-                            <td>可下载文件1</td>
+                            <td>文件名1</td>
                             <td>
-                                
-                                    <button type="button" class="downloadButton" onclick="changeButton(this, '')">
-                                        <span>下载</span>
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-
+                                <button type="button" class="downloadButton" onclick="changeButton(this, '')">
+                                    <span>下&nbsp;&nbsp;载</span>
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="article" value="文件名1">
+                                    <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
+                                </form> 
                             </td>
                         </tr>
                         <tr>
-                            <td>可下载文件2</td>
+                            <td>文件名2</td>
                             <td>
-                                
-                                    <button type="button" class="downloadButton" onclick="changeButton(this, '')">
-                                        <span>下载</span>
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-
+                                <button type="button" class="downloadButton" onclick="changeButton(this, '')">
+                                    <span>下&nbsp;&nbsp;载</span>
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="article" value="文件名2">
+                                    <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
+                                </form> 
                             </td>
                         </tr>
                         <tr>
-                            <td>可下载文件3</td>
+                            <td>文件名3</td>
                             <td>
-                                
-                                    <button type="button" class="downloadButton" onclick="changeButton(this, '')">
-                                        <span>下载</span>
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>可下载文件4</td>
-                            <td>
-                                
-                                    <button type="button" class="downloadButton" onclick="changeButton(this, '')">
-                                        <span>下载</span>
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>可下载文件5</td>
-                            <td>
-                                
-                                    <button type="button" class="downloadButton" onclick="changeButton(this, '')">
-                                        <span>下载</span>
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-
+                                <button type="button" class="downloadButton" onclick="changeButton(this, '')">
+                                    <span>下&nbsp;&nbsp;载</span>
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="article" value="文件名3">
+                                    <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
+                                </form> 
                             </td>
                         </tr>
                     </table>
@@ -292,6 +247,14 @@
             }
             function openWebpage(path) {
                 window.location.href = path;
+            }
+            function checkDelete(obj) {
+                var articleName = obj.children[0].value;
+                var r=confirm("是否确认删除 "+articleName+" ?");
+                if (r)
+                    return true;
+                else
+                    return false;
             }
         </script>
     </body>

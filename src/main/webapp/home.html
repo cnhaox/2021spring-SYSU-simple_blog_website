@@ -12,6 +12,22 @@
             .menuChecked .menu {
                 top: -0px;
             }
+            .manage {
+                float: right;
+                position: relative;
+            }
+            .manageButton {
+                margin: 10px 5px;
+                width: 50px;
+                height: 30px;
+                border: none;
+                background-color: rgba(57,165,247,1);
+                color: white;
+                cursor: pointer;
+            }
+            .manageButton:hover {
+                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+            }
             .titleListDiv {
                 position: relative;
                 margin: 100px 50px;
@@ -50,7 +66,7 @@
                 float:right;
                 font-size: small;
                 color: blue;
-            }
+            }/*
             #prevLink {
                 float:left;
             }
@@ -68,7 +84,11 @@
             }
             .pageButton:hover {
                 box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+            }*/
+            #titleList2 {
+                display:none;
             }
+            
         </style>
     </head>
     <body>
@@ -106,14 +126,19 @@
         </div>
         <div id="mainPart">
             <div class="titleListDiv">
+                <div class="search">
+                    <form action="" method="post">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input type="text" name="condition" placeholder="Searching...">
+                        <input type="submit" name="search" value="搜索">
+                    </form> 
+                </div>
+                <div style="clear:both"></div>
                 <h1>文章</h1>
-                <div class="titleList">
-                    <div class="search">
-                        <form action="#" method="post">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" name="condition" placeholder="Searching...">
-                            <input type="submit" value="搜索">
-                        </form> 
+                <div class="titleList" id="titleList1">
+                    <div class="manage">
+                        <input type="button" class="manageButton" onclick="openWebpage('edit.html')" value="发布"/>
+                        <input type="button" class="manageButton" onclick="manageArticle(true)" value="管理"/>
                     </div>
                     <div style="clear:both"></div>
                     <div class="titleBlockDiv">
@@ -181,49 +206,44 @@
                         </div>
                         <footer><a>Read More >></a></footer>
                     </div>
-                    <div class="titleBlockDiv">
-                        <div class="titleBlock">
-                            <h2><a>标题1</a></h2>
-                            <p class="titleMessage">@张三 &nbsp;|&nbsp; 2021-01-01 </p>
-                        </div>
-                        <div class="contentBlock">
-                            <p class="titleContent">
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
-                            </p>
-                        </div>
-                        <footer><a>Read More >></a></footer>
-                    </div>
-                    <div class="titleBlockDiv">
-                        <div class="titleBlock">
-                            <h2><a>标题1</a></h2>
-                            <p class="titleMessage">@张三 &nbsp;|&nbsp; 2021-01-01 </p>
-                        </div>
-                        <div class="contentBlock">
-                            <p class="titleContent">
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
-                            </p>
-                        </div>
-                        <footer><a>Read More >></a></footer>
-                    </div>
-                    <div class="titleBlockDiv">
-                        <div class="titleBlock">
-                            <h2><a>标题1</a></h2>
-                            <p class="titleMessage">@张三 &nbsp;|&nbsp; 2021-01-01 </p>
-                        </div>
-                        <div class="contentBlock">
-                            <p class="titleContent">
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-                                内容内容内容内容内容内容内容内容内容内容内容内容内容内容<br>
-                            </p>
-                        </div>
-                        <footer><a>Read More >></a></footer>
-                    </div>
+                    <!--
                     <div class="pageBottonDiv">
                         <a href="" id="prevLink"><input type="button" class="pageButton" value="<< 上一页"></a>
                         <a href="http://www.baidu.com/" id="nextLink"><input type="button" class="pageButton" value="下一页 >>"></a>
+                    </div>-->
+                </div>
+                <div class="titleList" id="titleList2">
+                    <div class="manage">
+                        <input type="button" class="manageButton" onclick="manageArticle(false)" value="完成"/>
                     </div>
+                    <div style="clear:both"></div>
+                    <table class="tableStyle">
+                        <tr>
+                            <th>文章标题</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <td>文章1</td>
+                            <td>2021-01-01</td>
+                            <td>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="article" value="文章1">
+                                    <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
+                                </form> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>文章2</td>
+                            <td>2021-01-01</td>
+                            <td>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="article" value="文章2">
+                                    <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
+                                </form> 
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -248,6 +268,26 @@
             window.onresize();
             function openWebpage(path) {
                 window.location.href = path;
+            }
+            function manageArticle(boolVal) {
+                if (boolVal)
+                {
+                    document.getElementById("titleList1").style.display = "none";
+                    document.getElementById("titleList2").style.display = "block";
+                }
+                else
+                {
+                    document.getElementById("titleList2").style.display = "none";
+                    document.getElementById("titleList1").style.display = "block";
+                }
+            }
+            function checkDelete(obj) {
+                var articleName = obj.children[0].value;
+                var r=confirm("是否确认删除 "+articleName+" ?");
+                if (r)
+                    return true;
+                else
+                    return false;
             }
         </script>
     </body>
