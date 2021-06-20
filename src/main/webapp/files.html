@@ -81,7 +81,7 @@
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </button>
                                 <form action="" method="post" onsubmit="return checkDelete(this)">
-                                    <input type="hidden" name="article" value="文件名1">
+                                    <input type="hidden" name="fileID" value="文件名1">
                                     <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
                                 </form> 
                             </td>
@@ -94,7 +94,7 @@
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </button>
                                 <form action="" method="post" onsubmit="return checkDelete(this)">
-                                    <input type="hidden" name="article" value="文件名2">
+                                    <input type="hidden" name="fileID" value="文件名2">
                                     <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
                                 </form> 
                             </td>
@@ -107,14 +107,14 @@
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </button>
                                 <form action="" method="post" onsubmit="return checkDelete(this)">
-                                    <input type="hidden" name="article" value="文件名3">
+                                    <input type="hidden" name="fileID" value="文件名3">
                                     <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
                                 </form> 
                             </td>
                         </tr>
                     </table>
                     <div class="upload">
-                        <form name="fileupload" action="" method="post" enctype="multipart/form-data">
+                        <form name="divfileupload" action="" method="post" enctype="multipart/form-data">
                             <span class="fileTip">上传文件：</span><a class="a-upload"><input type="file" name="file" onchange="refreshFileName(this)">选择文件</a><span class="fileName"></span><input type="submit" name="submit" value="OK" class="uploadButton">
                         </form>
                     </div>
