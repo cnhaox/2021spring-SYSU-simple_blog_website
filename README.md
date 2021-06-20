@@ -49,7 +49,7 @@
     - primary key(TID)
 3. Text
     - AID int,
-    - CContent longtext,
+    - AContent longtext,
     - foreign key(AID) references Article(AID),
     - primary key(AID)
 4. Comment
