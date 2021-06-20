@@ -13,8 +13,8 @@
     - Title
     - Author
     - CTime
-2. Tag
-    - TID
+2. Tag（弱实体）
+    - AID
     - TName
 3. Text（弱实体）
     - AID
@@ -38,47 +38,42 @@
 ### 表
 
 1. Article
-    - AID int,
-    - Title varchar(10),
-    - Author varchar(10),
-    - ATime datetime,
+    - AID int
+    - Title varchar(10)
+    - Author varchar(10)
+    - ATime datetime
     - primary key(AID)
 2. Tag
-    - TID int,
-    - TName varchar(10),
-    - primary key(TID)
+    - AID int
+    - TName varchar(10)
+    - foreign key(AID) references Article(AID)
+    - primary key(AID)
 3. Text
-    - AID int,
-    - AContent longtext,
-    - foreign key(AID) references Article(AID),
+    - AID int
+    - AContent longtext
+    - foreign key(AID) references Article(AID)
     - primary key(AID)
 4. Comment
-    - CID int,
-    - Nickname varchar(10),
-    - Email varchar(10),
-    - CTime datetime,
-    - CContent text,
+    - CID int
+    - Nickname varchar(10)
+    - Email varchar(10)
+    - CTime datetime
+    - CContent text
     - primary key(CID)
 5. File
-    - FName varchar(10),
+    - FName varchar(10)
     - primary key(FName)
-6. Article_Tag
-    - AID int,
-    - TID int,
-    - foreign key(AID) references Article(AID),
-    - foreign key(TID) references Tag(TID),
-    - primary key(AID, TID)
-7. Article_Comment
-    - AID int,
-    - CID int,
-    - foreign key(AID) references Article(AID),
-    - foreign key(CID) references Comment(CID),
+6. Article_Comment
+    - AID int
+    - CID int
+    - foreign key(AID) references Article(AID)
+    - foreign key(CID) references Comment(CID)
     - primary key(AID, CID)
-8. Comment_Comment
-    - C1ID int,
-    - C2ID int,
-    - foreign key(C1ID) references Comment(CID),
-    - foreign key(C2ID) references Comment(CID),
+7. Comment_Comment
+    - C1ID int
+    - C2ID int
+    - foreign key(C1ID) references Comment(CID)
+    - foreign key(C2ID) references Comment(CID)
     - primary key(C1ID, C2ID)
 
 ### 统一接口
