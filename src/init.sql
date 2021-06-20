@@ -17,7 +17,7 @@ create table Tag
 create table Text
 (
 	AID int,
-	CContent longtext,
+	AContent longtext,
 	foreign key(AID) references Article(AID),
 	primary key(AID)
 );
