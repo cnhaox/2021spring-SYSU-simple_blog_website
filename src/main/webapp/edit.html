@@ -28,67 +28,52 @@
             .manageButton:hover {
                 box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
             }
-            .titleListDiv {
+            .edit-container {
                 position: relative;
                 margin: 100px 50px;
             }
-            .titleList {
-                position: relative;
-                padding: 0px 10px;
+            .edit-container span {
+                font-weight: bold;
+                font-size: 16px;
             }
-            .titleBlockDiv {
-                position: relative;
-                width: 100%;
+            .edit-container-img,
+            .edit-container-title,
+            .edit-container-author,
+            .edit-container-article,
+            .img-list {
+                margin: 20px 0px;
+            }
+            .edit-container-title input,.edit-container-author input {
+                font-size: 16px;
+                padding: 10px 15px;
+                border: 1px solid lightgray;
+                border-radius: 0%;
+                background-color: rgba(255,255,255,0.4);
+                border: 1px solid gray;
+            }
+            .edit-container-article textarea {
+                display: block;
+                width: 810px;
+                min-height: 150px;
                 padding: 5px;
-                overflow: hidden;
+                resize: vertical;
+
+                margin: 0;
+                font-size: 16px;
+                line-height: 1.6;
+
+                background-color: rgba(255,255,255,0.4);
+
+                color: rgba(10,10,10,1);
+                border-radius: 0;
+                outline: none;
+                box-shadow: none;
+                overflow: visible;
+                border: 1px solid gray;
             }
-            .contentBlock {
-                height: 0px;
-                width: 100%;
-                overflow: hidden;
-                transition: all 1s;
-            }
-            .titleBlockDiv:hover {
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-                background-color: rgba(0,0,0,0.1);
-            }
-            .titleBlockDiv:hover .contentBlock {
-                height: 100px;
-            }
-            .titleMessage {
-                color: grey;
-                font-size: small;
-            }
-            .titleContent {
-                color:rgba(0, 0, 0, 0.7);
-            }
-            footer {
-                float:right;
-                font-size: small;
-                color: blue;
-            }/*
-            #prevLink {
-                float:left;
-            }
-            #nextLink {
+            .edit-container-submit {
                 float: right;
             }
-            .pageButton {
-                margin: 10px 5px;
-                width: 70px;
-                height: 30px;
-                border: none;
-                background-color: rgba(57,165,247,0.8);
-                color: white;
-                cursor: pointer;
-            }
-            .pageButton:hover {
-                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
-            }*/
-            #titleList2 {
-                display:none;
-            }
-            
         </style>
     </head>
     <body>
@@ -125,7 +110,56 @@
            
         </div>
         <div id="mainPart">
-            
+            <div class="edit-container">
+                <h1>发布</h1>
+                <form action="" method="post" id="newArticle" class="form-hidden-style" onsubmit="return checkSubmit(this)">
+                </form>
+                <div class="img-list">
+                    <table class="tableStyle">
+                        <tr>
+                            <th>图片路径</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <td>图片路径名字1</td>
+                            <td>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="imgID" value="IMG-ID">
+                                    <input type="submit" class="deleteButton" name="delete_img" value="删&nbsp;&nbsp;除">
+                                </form> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>图片路径名字2</td>
+                            <td>
+                                <form action="" method="post" onsubmit="return checkDelete(this)">
+                                    <input type="hidden" name="imgID" value="IMG-ID">
+                                    <input type="submit" class="deleteButton" name="delete_img" value="删&nbsp;&nbsp;除">
+                                </form> 
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="upload edit-container-img">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <span class="fileTip">上传图片：</span><a class="a-upload"><input type="file" name="file" onchange="refreshImgName(this)">选择图片</a><span class="fileName"></span><input type="submit" name="submit_img" value="OK" class="uploadButton">
+                    </form>
+                </div>
+                <div class="edit-container-title">
+                    <span>标题</span>：<input type="text" form="newArticle" name="title" value="">
+                </div>
+                <div class="edit-container-author">
+                    <span>作者</span>：<input type="text" form="newArticle" name="author" value="">
+                </div>
+                <div class="edit-container-article">
+                    <p><span>正文</span>：</p>
+                    <textarea form="ReplyFormCID" placeholder="请在此处使用MarkDown语法输入正文内容。（插入图片时先上传图片，然后使用上述列表展示的图片路径）"></textarea>
+                </div>
+                <div class="edit-container-submit">
+                    <input type="button" class="manageButton" onclick="cancelPost()" value="取消"/>
+                    <input type="submit" form="newArticle" class="manageButton" name="submit_article" value="发布"/>
+                </div>
+            </div>
         </div>
         
         <script>
@@ -164,6 +198,35 @@
             function checkDelete(obj) {
                 var articleName = obj.children[0].value;
                 var r=confirm("是否确认删除 "+articleName+" ?");
+                if (r)
+                    return true;
+                else
+                    return false;
+            }
+            function refreshImgName(obj) {
+                var filePath = obj.value;
+                var fileName = null;
+                if (filePath.indexOf("/")!=-1)
+                {
+                    var arr = filePath.split('/');
+                    fileName = arr[arr.length-1];
+                }
+                else if (filePath.indexOf("\\"!=-1))
+                {
+                    var arr = filePath.split("\\");
+                    fileName = arr[arr.length-1];
+                }
+                else
+                    fileName = filePath;
+                obj.parentNode.nextElementSibling.innerHTML = fileName;
+            }
+            function cancelPost()
+            {
+                
+            }
+            function checkSubmit(obj)
+            {
+                var r=confirm("是否确认发布文章？");
                 if (r)
                     return true;
                 else

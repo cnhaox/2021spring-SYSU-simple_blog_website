@@ -245,7 +245,7 @@ body {
 
 .upload {
     position: relative;
-    margin: 40px 10px;
+
 }
 .upload form {
     position: relative;
@@ -299,4 +299,8 @@ body {
 }
 .upload form .uploadButton:hover {
     box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+}
+
+.form-hidden-style {
+    display: none;
 }
