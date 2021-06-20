@@ -130,6 +130,9 @@
     vertical-align: super;
     font-size: smaller;
 }
+.comment-time-large {
+    font-size: large;
+}
 
 .reply-button {
     position:relative;

@@ -1,0 +1,82 @@
+.aboutDivList {
+    position: relative;
+    margin: 100px 50px;
+}
+.aboutDiv {
+    position: relative;
+    width: 100%;
+    margin: 20px;
+}
+.aboutDiv h2 {
+    margin: 10px 0px;
+}
+.aboutDiv div {
+    margin: 5px 0px;
+    word-wrap:normal;
+}
+.mes-table {
+    text-align: left;
+}
+.mes-table tr {
+    padding: 5px 0px;
+}
+.mes-table td {
+    padding: 5px;
+}
+.mes-table td:nth-child(1) {
+    width: 80px;
+    font-weight: bold;
+}
+.mes-table tr:hover td:nth-child(2) {
+    background-color: rgba(100,149,237,0.1);
+}
+
+.text-style {
+    display: block;
+    width: 400px;
+    min-height: 50px;
+    max-height: 200px;
+    padding: 5px;
+    resize: vertical;
+
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+
+    background-color: rgba(255,255,255,0.4);
+
+    color: rgba(10,10,10,1);
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    overflow: visible;
+    border: 1px solid gray;
+}
+
+.text-bigger-style {
+    width: 810px;
+    min-height: 150px;
+    max-height: 300px;
+}
+
+.manageButton {
+    margin: 10px 5px;
+    width: 50px;
+    height: 30px;
+    border: none;
+    background-color: rgba(57,165,247,1);
+    color: white;
+    cursor: pointer;
+}
+.manageButton:hover {
+    box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
+}
+.manageButton-bigger {
+    width: 100px;
+}
+.hidden {
+    display: none;
+}
+.showed {
+    display: block;
+}
