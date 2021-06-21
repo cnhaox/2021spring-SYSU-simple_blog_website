@@ -2,7 +2,7 @@
 
 ## 部署
 
-/src/init.sql
+src/init.sql
 
 ## 数据库
 
@@ -14,7 +14,6 @@
     - Author
 2. Tag
     - TName
-    - ATime
 3. Text（弱实体）
     - ATime
     - AContent
@@ -25,24 +24,21 @@
     - CContent
 5. Subcomment
     - STime
+    - Target
     - SNickname
     - SEmail
     - SContent
-6. File
-    - FName
 
 ### 联系
 
 1. Article_Tag
-    - 1Article对多Tag联系
+    - 多Article对多Tag联系
 2. Article_Text
     - 1对1联系
 3. Article_Comment
-    - 1Article对多Comment联系
+    - 1 Article对多Comment联系
 4. Comment_Subcomment
-    - 1Comment对多Subcomment联系
-5. Subcomment_Subcomment
-    - 多Subcomment对多Subcomment联系
+    - 1 Comment对多Subcomment联系
 
 ### 表
 
