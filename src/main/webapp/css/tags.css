@@ -10,6 +10,7 @@
 .tagBlock {
     padding:10px;
 }
+
 .tag {
     display: inline-block;
     color: green;
@@ -21,6 +22,7 @@
 .tag:hover {
     background-color: green;
     color: white;
+    cursor: pointer;
 }
 h1 {
     margin: 5px 0px;
