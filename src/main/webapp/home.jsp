@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.time.*"%>
+<%@ page import="java.time.format.*"%>
 <%
     String msg ="";
     String title_list1 = "";
@@ -14,26 +16,29 @@
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(connectString, user, pwd);
         Statement stmt = con.createStatement();
-        String title = request.getParameter("title");
         String sql = "select * from Article, Text where Article.ATime=Text.ATime";
-        if (title != null)
+        if (request.getParameter("search") != null)
         {
-            sql += "like%" + title + "%";
+        	sql += " and Title like '%" + request.getParameter("condition") + "%'";
         }
         ResultSet rs = stmt.executeQuery(sql);
+        DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
         while(rs.next())
         {
             String ATime = rs.getString("ATime");
             title_list1 += "<div class='titleBlockDiv' onclick=\"openWebpage('article.jsp?ATime=" + ATime + "')\">\n";
             title_list1 += "    <div class='titleBlock'>\n";
             title_list1 += "        <h2>" + rs.getString("Title") + "</h2>\n";
-            title_list1 += "        <p class=titleMessage>@" + rs.getString("Author") + "&nbsp;|&nbsp;" + rs.getString("ATime") + "</p>\n";
+            title_list1 += "        <p class=titleMessage>@" + rs.getString("Author") + "&nbsp;|&nbsp;" + LocalDateTime.parse(ATime,idf).format(odf) + "</p>\n";
             title_list1 += "    </div>\n";
             title_list1 += "    <div class='contentBlock'>\n";
             title_list1 += "        <p id='titleContent" + ATime + "' class='titleContent'></p>\n";
             title_list1 += "        <script>\n";
-            title_list1 += "            var abstract = marked(`" + rs.getString("AContent") + "`);\n";
-            title_list1 += "            abstract = abstract.replaceAll(/<[^>]+>/g, '').replaceAll(/\\n/g, ' ').slice(0, 100) + '&hellip;';\n";
+            title_list1 += "            var abstract = marked(\n";
+            title_list1 += "`" + rs.getString("AContent") + "`\n";
+            title_list1 += "            );\n";
+            title_list1 += "            abstract = abstract.replaceAll(/<[^>]+>/g, '').replaceAll(/\\n/g, ' ').slice(0, 200) + '&hellip;';\n";
             title_list1 += "            document.getElementById('titleContent" + ATime + "').innerHTML = abstract;\n";
             title_list1 += "        </script>\n";
             title_list1 += "    </div>\n";
@@ -73,6 +78,7 @@
         <title>个人博客</title>
         <link rel="stylesheet" type="text/css" href="css/general.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="css/home.css" />
         <style>
             .menuChecked {
                 top: 0px;
@@ -80,83 +86,6 @@
             .menuChecked .menu {
                 top: -0px;
             }
-            .manage {
-                float: right;
-                position: relative;
-            }
-            .manageButton {
-                margin: 10px 5px;
-                width: 50px;
-                height: 30px;
-                border: none;
-                background-color: rgba(57,165,247,1);
-                color: white;
-                cursor: pointer;
-            }
-            .manageButton:hover {
-                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
-            }
-            .titleListDiv {
-                position: relative;
-                margin: 100px 50px;
-            }
-            .titleList {
-                position: relative;
-                padding: 0px 10px;
-            }
-            .titleBlockDiv {
-                position: relative;
-                width: 100%;
-                padding: 5px;
-                overflow: hidden;
-            }
-            .contentBlock {
-                height: 0px;
-                width: 100%;
-                overflow: hidden;
-                transition: all 1s;
-            }
-            .titleBlockDiv:hover {
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-                background-color: rgba(0,0,0,0.1);
-            }
-            .titleBlockDiv:hover .contentBlock {
-                height: 100px;
-            }
-            .titleMessage {
-                color: grey;
-                font-size: small;
-            }
-            .titleContent {
-                color:rgba(0, 0, 0, 0.7);
-            }
-            footer {
-                float:right;
-                font-size: small;
-                color: blue;
-            }/*
-            #prevLink {
-                float:left;
-            }
-            #nextLink {
-                float: right;
-            }
-            .pageButton {
-                margin: 10px 5px;
-                width: 70px;
-                height: 30px;
-                border: none;
-                background-color: rgba(57,165,247,0.8);
-                color: white;
-                cursor: pointer;
-            }
-            .pageButton:hover {
-                box-shadow: inset 0px 0px 3px rgba(0,0,0,0.4);
-            }*/
-            #titleList2 {
-                display:none;
-            }
-            
         </style>
         <script src="./js/marked.min.js"></script>
     </head>
@@ -178,11 +107,11 @@
                     <li>About</li>
                 </ul>
                 <!-- 用来代表原本菜单中的三个选项（li元素） -->
-                <div class="menuHover menuHover1" onclick="openWebpage('home.html')"></div>
-                <div class="menuHover menuHover2" onclick="openWebpage('tags.html')"></div>
-                <div class="menuHover menuHover3" onclick="openWebpage('files.html')"></div>
-                <div class="menuHover menuHover4" onclick="openWebpage('about.html')"></div>
-                <div class="menuChecked"">
+                <div class="menuHover menuHover1" onclick="openWebpage('home.jsp')"></div>
+                <div class="menuHover menuHover2" onclick="openWebpage('tags.jsp')"></div>
+                <div class="menuHover menuHover3" onclick="openWebpage('files.jsp')"></div>
+                <div class="menuHover menuHover4" onclick="openWebpage('about.jsp')"></div>
+                <div class="menuChecked">
                     <ul class="menu">
                         <li>Home</li>
                         <li>Tags</li>
@@ -196,7 +125,7 @@
         <div id="mainPart">
             <div class="titleListDiv">
                 <div class="search">
-                    <form action="" method="post">
+                    <form action="home.jsp" method="post">
                         <i class="fa fa-search" aria-hidden="true"></i>
                         <input type="text" name="condition" placeholder="Searching...">
                         <input type="submit" name="search" value="搜索">
@@ -206,7 +135,7 @@
                 <h1>文章</h1>
                 <div class="titleList" id="titleList1">
                     <div class="manage">
-                        <input type="button" class="manageButton" onclick="openWebpage('edit.html')" value="发布"/>
+                        <input type="button" class="manageButton" onclick="openWebpage('edit.jsp')" value="发布"/>
                         <input type="button" class="manageButton" onclick="manageArticle(true)" value="管理"/>
                     </div>
                     <div style="clear:both"></div>
