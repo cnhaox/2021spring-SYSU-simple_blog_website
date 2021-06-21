@@ -48,39 +48,38 @@
 
 1. Article
     - ATime datetime
-    - Title varchar(10)
-    - Author varchar(10)
+    - Title varchar(50)
+    - Author varchar(20)
     - primary key(ATime)
 2. Tag
-    - TName varchar(10)
+    - TName varchar(20)
     - ATime datetime
-    - foreign key(ATime) references Article(ATime)
+    - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(TName, ATime)
 3. Text
     - ATime datetime
     - AContent longtext
-    - foreign key(ATime) references Article(ATime)
+    - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(ATime)
 4. Comment
     - CTime datetime
     - ATime datetime
-    - CNickname varchar(10)
-    - CEmail varchar(10)
+    - CNickname varchar(20)
+    - CEmail varchar(50)
     - CContent text
-    - foreign key(ATime) references Article(ATime)
+    - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(CTime, ATime)
 5. Subcomment
     - STime datetime
     - CTime datetime
-    - Target datetime
-    - SNickname varchar(10)
-    - SEmail varchar(10)
+    - ATime datetime
+    - Target varchar(20)
+    - SNickname varchar(20)
+    - SEmail varchar(50)
     - SContent text
-    - foreign key(CTime) references Article(CTime)
-    - primary key(STime, CTime)
-6. File
-    - FName varchar(10)
-    - primary key(FName)
+    - foreign key(CTime) references Content(CTime) on delete cascade
+    - foreign key(ATime) references Article(ATime) on delete cascade
+    - primary key(STime, CTime, ATime)
 
 ### 统一接口
 
