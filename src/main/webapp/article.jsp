@@ -1,4 +1,150 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.time.*"%>
+<%@ page import="java.time.format.*"%>
+<%
+	String msg = "";
+	String title = "";
+	String author = "";
+    DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+    DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
+	String tags = "";
+	String content = "";
+	String comment_list = "";
+    String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
+    String user = "blogger_18308013";
+    String pwd = "18340197";
+    request.setCharacterEncoding("utf-8");
+    String ATime = request.getParameter("ATime");
+    String ATime_fmt = LocalDateTime.parse(ATime,idf).format(odf);
+    try
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(connectString, user, pwd);
+        Statement stmt = con.createStatement();
+        String fmt = "select * from Article,Text where Article.ATime='%s' and Text.ATime='%s'";
+        String sql = String.format(fmt, ATime, ATime);
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        title = rs.getString("Title");
+        author = rs.getString("Author");
+        content = rs.getString("AContent");
+        rs.close();
+        fmt = "select * from Tag where ATime='%s'";
+        sql = String.format(fmt, ATime);
+        rs = stmt.executeQuery(sql);
+        if (rs.next())
+        {
+            tags += "<span class='tag-span'>" + rs.getString("TName") + "</span>";
+        }
+        while (rs.next())
+        {
+            tags += "&nbsp;|&nbsp;<span class='tag-span'>" + rs.getString("TName") + "</span>";
+        }
+        rs.close();
+        sql = "select * from Comment where ATime='" + ATime + "'";
+        rs = stmt.executeQuery(sql);
+        while (rs.next())
+        {
+        	String CTime = rs.getString("CTime");
+        	String CTime_fmt = LocalDateTime.parse(CTime,idf).format(odf);
+        	String CNickname = rs.getString("CNickname");
+        	String form_name = ("ReplyFrom" + CTime).replace(' ', '_');
+            comment_list += "<div class='comment-block'>\n";
+            comment_list += "    <div class='comment-block-header'>\n";
+            comment_list += "        <span class='comment-name comment-name-large'>" + CNickname + "</span>\n";
+            comment_list += "        <span class='comment-time comment-time-header'>" + CTime_fmt + "</span>\n";
+            comment_list += "    </div>\n";
+            comment_list += "    <div class='comment-block-body'>\n";
+            comment_list += "        <div>" + rs.getString("CContent") + "</div>\n";
+            comment_list += "        <div>\n";
+            comment_list += "            <button class='reply-button'  onclick='openReply(true, this)'>回复</button>\n";
+            comment_list += "        </div>\n";
+            comment_list += "        <div class='comment-block-editor'>\n";
+            comment_list += "            <form action='insert.jsp' method='post' id='" + form_name + "' class='form-hidden-style' onsubmit='return checkReply(this)'>\n";
+            comment_list += "            </form>\n";
+            comment_list += "            <div class='comment-editor-header'>\n";
+            comment_list += "                <div class='comment-editor-info'>\n";
+            comment_list += "                    <input name='article.jsp?ATime=" + ATime + "' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='100' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='Subcomment' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='datetime' value='STime' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='6' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='CTime' value='" + CTime + "' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='ATime' value='" + ATime + "' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    <input name='Target' value='" + CNickname + "' type='hidden' form='" + form_name + "'>\n";
+            comment_list += "                    昵称：<input name='SNickname' value='' type='text' form='" + form_name + "'>\n";
+            comment_list += "                    Email：<input name='SEmail' value='' type='text' form='" + form_name + "'>\n";
+            comment_list += "                </div>\n";
+            comment_list += "            </div>\n";
+            comment_list += "            <div class='comment-editor-body'>\n";
+            comment_list += "                <textarea name='SContent' form='" + form_name + "' placeholder='请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。'></textarea>\n";
+            comment_list += "            </div>\n";
+            comment_list += "            <button class='reply-button' onclick='openReply(false, this)'>取消</button>\n";
+            comment_list += "            <input type='submit' form='" + form_name + "' name='submit' class='reply-button' value='回复'>\n";
+            comment_list += "        </div>\n";
+            comment_list += "    </div>\n";
+            comment_list += "    <div class='comment-foot'>\n";
+            String sub_fmt = "select * from Subcomment where CTime='%s' and ATime='%s'";
+            String sub_sql = String.format(sub_fmt, CTime, ATime);
+            Statement sub_stmt = con.createStatement();
+            ResultSet sub_rs = sub_stmt.executeQuery(sub_sql);
+            while(sub_rs.next())
+            {
+            	String STime = sub_rs.getString("STime");
+                String STime_fmt = LocalDateTime.parse(STime,idf).format(odf);
+            	String SNickname = sub_rs.getString("SNickname");
+            	String sub_form_name = ("SubReplyForm" + STime).replace(' ', '_');
+                comment_list += "        <div class='comment-comment'>\n";
+                comment_list += "            <div class='comment-comment-header'>\n";
+                comment_list += "                <span class='comment-name'>" + SNickname + "</span> 于 <span class='comment-time'>" + STime_fmt + "</span> 回复 <span class='comment-name'>" + sub_rs.getString("Target") + "</span>：\n";
+                comment_list += "            </div>\n";
+                comment_list += "            <div class='comment-comment-body'>\n";
+                comment_list += "                <div>" + sub_rs.getString("SContent") + "</div>\n";
+                comment_list += "                <div>\n";
+                comment_list += "                    <button class='reply-button' onclick='openReply(true, this)'>回复</button>\n";
+                comment_list += "                </div>\n";
+                comment_list += "                <div class='comment-block-editor'>\n";
+                comment_list += "                    <form action='insert.jsp' method='post' id='" + sub_form_name + "' class='form-hidden-style' onsubmit='return checkReply(this)'>\n";
+                comment_list += "                    </form>\n";
+                comment_list += "                    <div class='comment-editor-header'>\n";
+                comment_list += "                        <div class='comment-editor-info'>\n";
+                comment_list += "                            <input name='article.jsp?ATime=" + ATime + "' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='100' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='Subcomment' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='datetime' value='STime' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='6' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='CTime' value='" + CTime + "' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='ATime' value='" + ATime + "' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            <input name='Target' value='" + SNickname + "' type='hidden' form='" + sub_form_name + "'>\n";
+                comment_list += "                            昵称：<input name='SNickname' value='' type='text' form='" + sub_form_name + "'>\n";
+                comment_list += "                            Email：<input name='SEmail' value='' type='text' form='" + sub_form_name + "'>\n";
+                comment_list += "                        </div>\n";
+                comment_list += "                    </div>\n";
+                comment_list += "                    <div class='comment-editor-body'>\n";
+                comment_list += "                        <textarea name='SContent' form='" + sub_form_name + "' placeholder='请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。'></textarea>\n";
+                comment_list += "                    </div>\n";
+                comment_list += "                    <button class='reply-button' onclick='openReply(false, this)'>取消</button>\n";
+                comment_list += "                    <input type='submit' form='" + sub_form_name + "' name='submit' class='reply-button' value='回复'>\n";
+                comment_list += "                </div>\n";
+                comment_list += "            </div>\n";
+                comment_list += "        </div>\n";
+            }
+            comment_list += "    </div>\n";
+            comment_list += "</div>\n";
+            sub_rs.close();
+            sub_stmt.close();
+        }
+        rs.close();
+        stmt.close();
+        con.close();
+    }
+    catch (Exception e)
+    {
+        msg = e.getMessage();
+    }
+%>
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head>
@@ -16,7 +162,6 @@
                 top: 0px;
             }
         </style>
-        <script src="./js/marked.min.js"></script>
     </head>
     <body>
         <div id="leftPart">
@@ -36,11 +181,11 @@
                     <li>About</li>
                 </ul>
                 <!-- 用来代表原本菜单中的三个选项（li元素） -->
-                <div class="menuHover menuHover1" onclick="openWebpage('home.html')"></div>
-                <div class="menuHover menuHover2" onclick="openWebpage('tags.html')"></div>
-                <div class="menuHover menuHover3" onclick="openWebpage('files.html')"></div>
-                <div class="menuHover menuHover4" onclick="openWebpage('about.html')"></div>
-                <div class="menuChecked"">
+                <div class="menuHover menuHover1" onclick="openWebpage('home.jsp')"></div>
+                <div class="menuHover menuHover2" onclick="openWebpage('tags.jsp')"></div>
+                <div class="menuHover menuHover3" onclick="openWebpage('files.jsp')"></div>
+                <div class="menuHover menuHover4" onclick="openWebpage('about.jsp')"></div>
+                <div class="menuChecked">
                     <ul class="menu">
                         <li>Home</li>
                         <li>Tags</li>
@@ -53,231 +198,52 @@
         </div>
         <div id="mainPart">
             <div id="article-container">
-                <h1>这是文章标题</h1>
-                <div class="article-mes">
-                    <span class="comment-name comment-name-large">作者</span>
-                    &nbsp;&nbsp;
-                    <span class="comment-time comment-time-large">2021-01-01 12:00:30</span>
+                <div id="article-header">
+                    <h1><%=title%></h1>
+                    <div class="article-mes">
+                        <span class="comment-name comment-name-large"><%=author%></span>
+                        &nbsp;&nbsp;
+                        <span class="comment-time comment-time-large"><%=ATime_fmt%></span>
+                    </div>
+                    <div class="article-tags">
+                    	<%=tags%>
+                    </div>
                 </div>
-                <div class="article-tags">
-                    <span class="tag-header">标签：</span> <span class="tag-span">标签1</span>&nbsp;|&nbsp;<span class="tag-span">标签2</span>&nbsp;|&nbsp;<span class="tag-span">标签3</span>
+                <div id="article-body">
                 </div>
-
-                <p>
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                </p>
-                <p>好，文章结束了。</p>
             </div>
-            <script>
-                document.getElementById('article--container').innerHTML = marked('# Marked in browser\n\nRendered by **marked**.![](./img/pic.jpeg)')
-            </script>
 
             <div class="comment-editor-container">
                 <h2>吐槽一下?</h2>
                 <div class="comment-editor-main">
-                    <form action="" method="post" id="newReplyForm" class="form-hidden-style" onsubmit="return checkReply(this)">
+                    <form action="insert.jsp" method="post" id="newReplyForm" class="form-hidden-style" onsubmit="return checkReply(this)">
                     </form>
                     <div class="comment-editor-header">
                         <div class="comment-editor-info">
-                            <input type="hidden" form="newReplyForm" name="cid" value="">
-                            昵称：<input type="text" form="newReplyForm" name="userName" value="">
-                            Email：<input type="text" form="newReplyForm" name="email" value="">
+                            <input name="article.jsp?ATime=<%=ATime%>" type="hidden" form="newReplyForm">
+                            <input name="100" type="hidden" form="newReplyForm">
+                            <input name="Comment" type="hidden" form="newReplyForm">
+                            <input name="datetime" value="CTime" type="hidden" form="newReplyForm">
+                            <input name="4" type="hidden" form="newReplyForm">
+                            <input name="ATime" value="<%=ATime%>" type="hidden" form="newReplyForm">
+                            昵称：<input name="CNickname" value="" type="text" form="newReplyForm">
+                            Email：<input name="CEmail" value="" type="text" form="newReplyForm">
                         </div>
                     </div>
                     <div class="comment-editor-body">
-                        <textarea form="newReplyForm" name="comment" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。" value=""></textarea>
+                        <textarea name="CContent" form="newReplyForm" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                     </div>
                 </div>
                 <div class="comment-editor-footer">
-                    <input type="submit"  form="newReplyForm" name="submit" class="comment-editor-submit" value="发&nbsp;&nbsp;表">
+                    <input type="submit" form="newReplyForm" name="submit" class="comment-editor-submit" value="发&nbsp;&nbsp;表">
                 </div>
             </div>
             <div class="comment-container">
                 <h2>全部评论</h2>
-                <div class="comment-block">
-                    <div class="comment-block-header">
-                        <span class="comment-name comment-name-large">用户名</span>
-                        <span class="comment-time comment-time-header">2021-01-01 12:00:30</span>
-                    </div>
-                    <div class="comment-block-body">
-                        <div>
-                            这是一条评论。评论内容在这个div显示。
-                        </div>
-                        <div>
-                            <button class="reply-button"  onclick="openReply(true, this)">回复</button>
-                        </div>
-                        <div class="comment-block-editor">
-                            <form action="" method="post" id="ReplyFormCID" class="form-hidden-style" onsubmit="return checkReply(this)">
-                            </form>
-                            <div class="comment-editor-header">
-                                <div class="comment-editor-info">
-                                    <input type="hidden" name="cid" value="CID">
-                                    昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                    Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                </div>
-                            </div>
-                            <div class="comment-editor-body">
-                                <textarea form="ReplyFormCID" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                            </div>
-                            <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                            <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                        </div>
-                    </div>
-                    <div class="comment-foot">
-                        <div class="comment-comment">
-                            <div class="comment-comment-header">
-                                <span class="comment-name">用户名1</span> 于 <span class="comment-time">2021-01-01 12:30:00</span> 回复 <span class="comment-name">用户名</span>：
-                            </div>
-                            <div class="comment-comment-body">
-                                <div>
-                                    这是一条回复。评论内容在这个div显示。
-                                </div>
-                                <div>
-                                    <button class="reply-button" onclick="openReply(true, this)">回复</button>
-                                </div>
-                                <div class="comment-block-editor">
-                                    <form action="" method="post" id="ReplyFormCID" class="form-hidden-style" onsubmit="return checkReply(this)">
-                                    </form>
-                                    <div class="comment-editor-header">
-                                        <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
-                                            昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                            Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                        </div>
-                                    </div>
-                                    <div class="comment-editor-body">
-                                        <textarea form="ReplyFormCID" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                                    </div>
-                                    <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                                    <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-comment">
-                            <div class="comment-comment-header">
-                                <span class="comment-name">用户名1</span> 于 <span class="comment-time">2021-01-01 12:30:00</span> 回复 <span class="comment-name">用户名</span>：
-                            </div>
-                            <div class="comment-comment-body">
-                                <div>
-                                    这是一条回复。评论内容在这个div显示。
-                                </div>
-                                <div>
-                                    <button class="reply-button" onclick="openReply(true, this)">回复</button>
-                                </div>
-                                <div class="comment-block-editor">
-                                    <form action="" method="post" id="ReplyFormCID" class="form-hidden-style" onsubmit="return checkReply(this)">
-                                    </form>
-                                    <div class="comment-editor-header">
-                                        <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
-                                            昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                            Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                        </div>
-                                    </div>
-                                    <div class="comment-editor-body">
-                                        <textarea form="ReplyFormCID" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                                    </div>
-                                    <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                                    <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="comment-block">
-                    <div class="comment-block-header">
-                        <span class="comment-name comment-name-large">用户名</span>
-                        <span class="comment-time comment-time-header">2021-01-01 12:00:30</span>
-                    </div>
-                    <div class="comment-block-body">
-                        <div>
-                            这是一条评论。评论内容在这个div显示。
-                        </div>
-                        <div>
-                            <button class="reply-button"  onclick="openReply(true, this)">回复</button>
-                        </div>
-                        <div class="comment-block-editor">
-                            <form action="" method="post" id="ReplyFormCID" class="formStyle" onsubmit="return checkReply(this)">
-                            </form>
-                            <div class="comment-editor-header">
-                                <div class="comment-editor-info">
-                                    <input type="hidden" name="cid" value="CID">
-                                    昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                    Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                </div>
-                            </div>
-                            <div class="comment-editor-body">
-                                <textarea form="ReplyFormCID" placeholder="严禁发布色情、暴力、反动的言论。"></textarea>
-                            </div>
-                            <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                            <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                        </div>
-                    </div>
-                    <div class="comment-foot">
-                        <div class="comment-comment">
-                            <div class="comment-comment-header">
-                                <span class="comment-name">用户名1</span> 于 <span class="comment-time">2021-01-01 12:30:00</span> 回复 <span class="comment-name">用户名</span>：
-                            </div>
-                            <div class="comment-comment-body">
-                                <div>
-                                    这是一条回复。评论内容在这个div显示。
-                                </div>
-                                <div>
-                                    <button class="reply-button" onclick="openReply(true, this)">回复</button>
-                                </div>
-                                <div class="comment-block-editor">
-                                    <form action="" method="post" id="ReplyFormCID" class="formStyle" onsubmit="return checkReply(this)">
-                                    </form>
-                                    <div class="comment-editor-header">
-                                        <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
-                                            昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                            Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                        </div>
-                                    </div>
-                                    <div class="comment-editor-body">
-                                        <textarea form="ReplyFormCID" placeholder="严禁发布色情、暴力、反动的言论。"></textarea>
-                                    </div>
-                                    <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                                    <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-comment">
-                            <div class="comment-comment-header">
-                                <span class="comment-name">用户名1</span> 于 <span class="comment-time">2021-01-01 12:30:00</span> 回复 <span class="comment-name">用户名</span>：
-                            </div>
-                            <div class="comment-comment-body">
-                                <div>
-                                    这是一条回复。评论内容在这个div显示。
-                                </div>
-                                <div>
-                                    <button class="reply-button" onclick="openReply(true, this)">回复</button>
-                                </div>
-                                <div class="comment-block-editor">
-                                    <form action="" method="post" id="ReplyFormCID" class="formStyle" onsubmit="return checkReply(this)">
-                                    </form>
-                                    <div class="comment-editor-header">
-                                        <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
-                                            昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
-                                            Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
-                                        </div>
-                                    </div>
-                                    <div class="comment-editor-body">
-                                        <textarea form="ReplyFormCID" placeholder="严禁发布色情、暴力、反动的言论。"></textarea>
-                                    </div>
-                                    <button class="reply-button" onclick="openReply(false, this)">取消</button>
-                                    <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%=comment_list%>
             </div>
         </div>
+        <div><%=msg%></div>
         
         <script>
             window.onscroll = function() {
@@ -304,6 +270,12 @@
                 var num = obj.parentNode.parentNode.children.length;
                 if (boolValue)
                 {
+                    var objList = document.getElementsByClassName("comment-block-editor");
+                    for (var i=0; i<objList.length; i++)
+                    {
+                        objList[i].parentNode.children[num-2].style.display = "block";
+                        objList[i].parentNode.children[num-1].style.display = "none";
+                    }
                     obj.parentNode.parentNode.children[num-2].style.display = "none";
                     obj.parentNode.parentNode.children[num-1].style.display = "block";
                 }
@@ -321,6 +293,12 @@
                 else
                     return false;
             }
+        </script>
+        <script src="./js/marked.min.js"></script>
+        <script>
+            document.getElementById('article-body').innerHTML = marked(
+`<%=content%>`
+            )
         </script>
     </body>
 </html>

@@ -42,6 +42,6 @@
             }
         }
         while (redo > 0);
-        response.sendRedirect(redirect+"?msg="+msg);
+        response.sendRedirect(redirect + (redirect.contains("?") ? "&" : "?") + "msg=" + msg);
     }
 %>

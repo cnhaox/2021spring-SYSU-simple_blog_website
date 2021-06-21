@@ -37,16 +37,18 @@
                 int attr_num = Integer.parseInt(params.nextElement());
                 for (int i = 0; i < attr_num; ++i)
                 {
-                        String attr_name = params.nextElement();
-                        String attr = request.getParameter(attr_name);
-                        if (attr_name.equals("datetime"))
-                        {
-                            attr_name = attr;
-                            attr = datetime;
-                        }
-                        table += "," + attr_name;
-                        values += ",'" + attr + "'";
+                    String attr_name = params.nextElement();
+                	out.println(attr_name);
+                    String attr = request.getParameter(attr_name);
+                    if (attr_name.equals("datetime"))
+                    {
+                        attr_name = attr;
+                        attr = datetime;
+                    }
+                    table += "," + attr_name;
+                    values += ",'" + attr + "'";
                 }
+                out.println("<br>");
                 table += ")";
                 values += ")";
                 String fmt = "insert into %s %s";
@@ -69,6 +71,6 @@
             }
         }
         while (redo > 0);
-        response.sendRedirect(redirect+"?msg="+msg);
+        response.sendRedirect(redirect + (redirect.contains("?") ? "&" : "?") + "msg=" + msg);
     }
 %>
