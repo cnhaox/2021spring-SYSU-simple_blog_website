@@ -5,15 +5,6 @@
 <title>My Blog</title>
 <link rel="stylesheet" type="text/css" href="css/general.css" />
 <style>
-	#title {
-			color: #ffffff;
-			text-align: center;
-			position: absolute;
-			left: 340px;
-			top: 140px;
-			font-size: 4rem;
-			font-weight: bold;
-	}
 	#shadow {
           	position: absolute;
           	display: block;
@@ -32,16 +23,28 @@
             30% { opacity: 0.5; }
             80% { opacity: 0.3; }
             100% { opacity: 0.1; }
- 	}
+	}
+	#title {
+			position: relative;
+			top: 250px;
+			margin: 0px auto;
+			color: #ffffff;
+			text-align: center;
+			font-size: 4rem;
+			font-weight: bold;
+	}
+	#nav {
+		position: relative;
+		top: 400px;
+		margin: 0px auto;
+	}
     #nav ul {
 			display: flex;
 			list-style: none;
 			border: solid 1px #ffffff;
 			border-radius: 8px;
 			width: 400px;
-			position: absolute;
-			left: 430px;
-			top: 350px;
+			margin: 0px auto;
 	}
 	#nav ul li {
 			border-left: solid 1px #ffffff;
@@ -69,33 +72,36 @@
 	}
 	#footer {
             text-align: center;
-			position: absolute;
-			left: 535px;
-			bottom: 130px;
+			position: relative;
+			top: 600px;
+			margin: 0px auto;
 			font-size: 1.5rem;
 	}
 </style>
 </head>
 <body>
-	<div id="title">Welcome To My Blog !</div>
 	<div id="shadow"></div>
+	<div id="title">Welcome To My Blog !</div>
 	<div id="nav">
-       	<ul>
-          	<li><a href="home.html">游客入口</a></li>
-          	<li><a href="home.html">管理员入口</a></li>
-    	</ul>
-    </div>
-    <div id="footer">
-        <p>&copy; 2021 SYSU Web</p>
-    </div>
-    
+		<ul>
+			<li><a href="home.html">游客入口</a></li>
+			<li><a href="home.html">管理员入口</a></li>
+		</ul>
+	</div>
+	<div id="footer">
+		<p>&copy; 2021 SYSU Web</p>
+	</div>
+
 	<script>
-    var shadow = document.getElementById("shadow");
-    shadow.style.width = "" + document.documentElement.scrollWidth + "px";
-    if (document.documentElement.clientHeight > document.documentElement.scrollHeight)
-        shadow.style.height = "" + document.documentElement.clientHeight + "px";
-    else
-        shadow.style.height = "" + document.documentElement.scrollHeight + "px";
+		window.onresize = function() {
+			var clientWidth = Math.max(document.body.clientWidth, document.documentElement.clientWidth);
+			var clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+			var shadow = document.getElementById("shadow");
+			shadow.style.width = "" + clientWidth + "px";
+			shadow.style.height = "" + clitentHeight + "px";
+
+		}
+		window.onresize();
 	</script>
 </body>
 </html>

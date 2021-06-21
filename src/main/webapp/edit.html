@@ -54,35 +54,26 @@
                 <form action="" method="post" id="newArticle" class="form-hidden-style" onsubmit="return checkSubmit(this)">
                 </form>
                 <div class="img-list">
-                    <table class="tableStyle">
-                        <tr>
-                            <th>图片路径</th>
-                            <th>操作</th>
-                        </tr>
-                        <tr>
-                            <td>图片路径名字1</td>
-                            <td>
-                                <form action="" method="post" onsubmit="return checkDelete(this)">
-                                    <input type="hidden" name="imgID" value="IMG-ID">
-                                    <input type="submit" class="deleteButton" name="delete_img" value="删&nbsp;&nbsp;除">
-                                </form> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>图片路径名字2</td>
-                            <td>
-                                <form action="" method="post" onsubmit="return checkDelete(this)">
-                                    <input type="hidden" name="imgID" value="IMG-ID">
-                                    <input type="submit" class="deleteButton" name="delete_img" value="删&nbsp;&nbsp;除">
-                                </form> 
-                            </td>
-                        </tr>
+                    <table class="tableStyle"  id="imgTable">
+                        <tbody >
+                            <tr>
+                                <th>图片路径</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="hidden">
+                                        <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
+                                    </div>
+                                    <div class="uploadButton">
+                                        <label for="file1">添&nbsp;&nbsp;加</label>
+                                        <input type="file" form="newArticle" id="file1" name="file1" onchange="refreshImgTr(this)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                </div>
-                <div class="upload edit-container-img">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <span class="fileTip">上传图片：</span><a class="a-upload"><input type="file" name="file" onchange="refreshImgName(this)">选择图片</a><span class="fileName"></span><input type="submit" name="submit_img" value="OK" class="uploadButton">
-                    </form>
                 </div>
                 <div class="edit-container-title">
                     <span>标题</span>：<input type="text" form="newArticle" name="title" placeholder="请输入标题" value="">
@@ -145,7 +136,8 @@
                 else
                     return false;
             }
-            function refreshImgName(obj) {
+            function refreshImgTr(obj) {
+                // 获取文件名并显示，切换按钮显示
                 var filePath = obj.value;
                 var fileName = null;
                 if (filePath.indexOf("/")!=-1)
@@ -160,7 +152,47 @@
                 }
                 else
                     fileName = filePath;
-                obj.parentNode.nextElementSibling.innerHTML = fileName;
+                var tr_obj = obj.parentNode.parentNode.parentNode;
+                tr_obj.children[0].innerHTML = fileName;
+                tr_obj.children[1].children[0].style.display = "block";
+                tr_obj.children[1].children[1].style.display = "none";
+                // 创建新行
+                var new_tr = document.createElement("tr");
+                new_tr.appendChild(document.createElement("td"));
+                new_tr.appendChild(document.createElement("td"));
+                new_tr.children[1].appendChild(document.createElement("div"));
+                new_tr.children[1].children[0].setAttribute("class","hidden");
+                new_tr.children[1].children[0].appendChild(document.createElement("button"));
+                new_tr.children[1].children[0].children[0].setAttribute("class","deleteButton");
+                new_tr.children[1].children[0].children[0].innerHTML = "删&nbsp;&nbsp;除";
+                new_tr.children[1].children[0].children[0].setAttribute("onclick", "deleteImgTr(this)");
+                new_tr.children[1].appendChild(document.createElement("div"));
+                new_tr.children[1].children[1].setAttribute("class","uploadButton");
+                new_tr.children[1].children[1].appendChild(document.createElement("label"));
+                new_tr.children[1].children[1].children[0].innerHTML = "添&nbsp;&nbsp;加";
+                new_tr.children[1].children[1].appendChild(document.createElement("input"));
+                new_tr.children[1].children[1].children[1].setAttribute("type", "file");
+                new_tr.children[1].children[1].children[1].setAttribute("form", "newArticle");
+                new_tr.children[1].children[1].children[1].setAttribute("onchange", "refreshImgTr(this)");
+                tr_obj.parentNode.appendChild(new_tr);
+                updateImgTable();
+            }
+            function updateImgTable() {
+                // 更新文件列表的id和name
+                var tbody_obj = document.getElementById("imgTable").children[0];
+                for (var i=1; i<tbody_obj.children.length; i++)
+                {
+                    var str = "img"+i;
+                    tbody_obj.children[i].getElementsByTagName("label")[0].setAttribute("for", str);
+                    tbody_obj.children[i].getElementsByTagName("input")[0].setAttribute("id", str);
+                    tbody_obj.children[i].getElementsByTagName("input")[0].setAttribute("name", str);
+                }
+            }
+            function deleteImgTr(obj) {
+                var tr_obj = obj.parentNode.parentNode.parentNode;
+                var table_obj = tr_obj.parentNode;
+                table_obj.removeChild(tr_obj);
+                updateImgTable();
             }
             function cancelPost()
             {

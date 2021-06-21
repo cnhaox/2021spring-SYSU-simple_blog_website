@@ -61,49 +61,46 @@
                     <table class="mes-table" id="mes_table">
                         <tr>
                             <td>名字昵称：</td>
-                            <td class="showed"> 豪尼玛 </td>
-                            <td class="hidden"><textarea form="mesForm" name="name" class="text-style" placeholder="">豪尼玛</textarea></td>
+                            <td class="showed">张三</td>
+                            <td class="hidden"><textarea form="mesForm" name="name" class="text-style" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <td>学校专业：</td>
-                            <td class="showed"> 大山中学宇宙机专业 </td>
-                            <td class="hidden"><textarea form="mesForm" name="school" class="text-style" placeholder="">大山中学宇宙机专业</textarea></td>
+                            <td class="showed">大山中学宇宙机专业</td>
+                            <td class="hidden"><textarea form="mesForm" name="school" class="text-style" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <td>兴趣爱好：</td>
-                            <td class="showed"> 学习《专业基础综合实践》课程。 </td>
-                            <td class="hidden"><textarea form="mesForm" name="hobby" class="text-style" placeholder="">学习《专业基础综合实践》课程。</textarea></td>
+                            <td class="showed">学习《专业基础综合实践》课程。</td>
+                            <td class="hidden"><textarea form="mesForm" name="hobby" class="text-style" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <td>当前状态：</td>
-                            <td class="showed"> 痛并快乐着 </td>
-                            <td class="hidden"><textarea form="mesForm" name="status" class="text-style" placeholder="">痛并快乐着</textarea></td>
+                            <td class="showed">痛并快乐着</td>
+                            <td class="hidden"><textarea form="mesForm" name="status" class="text-style" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <td>联系方式：</td>
-                            <td class="showed"> 1234@mail.com </td>
-                            <td class="hidden"><textarea form="mesForm" name="contact" class="text-style" placeholder="">1234@mail.com</textarea></td>
+                            <td class="showed">1234@mail.com</td>
+                            <td class="hidden"><textarea form="mesForm" name="contact" class="text-style" placeholder=""></textarea></td>
                         </tr>
                     </table>
                 </div>
                 <div class="aboutDiv">
                     <h2>自我介绍</h2>
-                    <div  class="showed">
-                        米娜桑， dasiki!
-                    </div>
+                    <div  class="showed">米娜桑， dasiki!</div>
                     <div class="hidden">
-                        <textarea form="mesForm" name="introduction" class="text-style text-bigger-style" placeholder="">米娜桑， dasiki!</textarea>
+                        <textarea form="mesForm" name="introduction" class="text-style text-bigger-style" placeholder=""></textarea>
                     </div>
                 </div>
                 <div class="aboutDiv">
                     <h2>博客信息</h2>
-                    <div  class="showed">
-                        这里是三次元的家！
-                    </div>
+                    <div  class="showed">这里是三次元的家！</div>
                     <div class="hidden">
-                        <textarea form="mesForm" name="blog_mes" class="text-style text-bigger-style" placeholder="">这里是三次元的家！</textarea>
+                        <textarea form="mesForm" name="blog_mes" class="text-style text-bigger-style" placeholder=""></textarea>
                     </div>
                 </div>
+                <!--
                 <div class="aboutDiv hidden">
                     <h2>背景头像</h2>
                     <div class="upload">
@@ -116,7 +113,7 @@
                             <span class="fileTip">修改头像：</span><a class="a-upload"><input type="file" name="file" onchange="refreshImgName(this)">选择图片</a><span class="fileName"></span><input type="submit" name="submit_img2" value="OK" class="uploadButton">
                         </form>
                     </div>
-                </div>
+                </div>-->
                 <div class="aboutDiv hidden" id="manage_div">
                     <input type="button" class="manageButton" onclick="openManage(false)" value="取消"/>
                     <input type="submit" form="mesForm" class="manageButton" name="submit_mes" value="修改"/>
@@ -150,6 +147,12 @@
                 var obj_list2 = document.getElementsByClassName("hidden");
                 if (boolValue)
                 {
+                    var obj_textarea = document.getElementsByTagName("textarea");
+                    for (var i=0; i<obj_textarea.length; i++)
+                    {
+                        var len = obj_textarea[i].parentNode.parentNode.children.length;
+                        obj_textarea[i].value = obj_textarea[i].parentNode.parentNode.children[len-2].innerHTML;
+                    }
                     for (var i=0; i<obj_list1.length; i++)
                         obj_list1[i].style.display = "none";
                     for (var i=0; i<obj_list2.length; i++)
