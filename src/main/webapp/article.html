@@ -106,12 +106,13 @@
                         <div>
                             <button class="reply-button"  onclick="openReply(true, this)">回复</button>
                         </div>
+
                         <div class="comment-block-editor">
                             <form action="" method="post" id="ReplyFormCID" class="form-hidden-style" onsubmit="return checkReply(this)">
                             </form>
                             <div class="comment-editor-header">
                                 <div class="comment-editor-info">
-                                    <input type="hidden" name="cid" value="CID">
+                                    <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                     昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                     Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                 </div>
@@ -122,6 +123,7 @@
                             <button class="reply-button" onclick="openReply(false, this)">取消</button>
                             <input type="submit"  form="ReplyFormCID" name="submit" class="reply-button" value="回复">
                         </div>
+
                     </div>
                     <div class="comment-foot">
                         <div class="comment-comment">
@@ -140,7 +142,7 @@
                                     </form>
                                     <div class="comment-editor-header">
                                         <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
+                                            <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                             昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                             Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                         </div>
@@ -169,7 +171,7 @@
                                     </form>
                                     <div class="comment-editor-header">
                                         <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
+                                            <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                             昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                             Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                         </div>
@@ -201,7 +203,7 @@
                             </form>
                             <div class="comment-editor-header">
                                 <div class="comment-editor-info">
-                                    <input type="hidden" name="cid" value="CID">
+                                    <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                     昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                     Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                 </div>
@@ -230,7 +232,7 @@
                                     </form>
                                     <div class="comment-editor-header">
                                         <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
+                                            <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                             昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                             Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                         </div>
@@ -259,7 +261,7 @@
                                     </form>
                                     <div class="comment-editor-header">
                                         <div class="comment-editor-info">
-                                            <input type="hidden" name="cid" value="CID">
+                                            <input type="hidden" form="ReplyFormCID" name="cid" value="CID">
                                             昵称：<input type="text" form="ReplyFormCID" id="userNameInput" name="userName" value="">
                                             Email：<input type="text" form="ReplyFormCID" id="emailInput" name="email" value="">
                                         </div>

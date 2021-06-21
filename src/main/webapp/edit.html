@@ -51,24 +51,45 @@
         <div id="mainPart">
             <div class="edit-container">
                 <h1>发布</h1>
-                <form action="" method="post" id="newArticle" class="form-hidden-style" onsubmit="return checkSubmit(this)">
+                <form action="" method="post" id="newArticle" class="form-hidden-style" onsubmit="return checkSubmit(this)" enctype="multipart/form-data">
                 </form>
                 <div class="img-list">
-                    <table class="tableStyle"  id="imgTable">
+                    <table class="tableStyle" id="imgTable">
                         <tbody >
                             <tr>
                                 <th>图片路径</th>
                                 <th>操作</th>
                             </tr>
-                            <tr>
+
+                            <tr class="old-img-tr">
+                                <td>&lt;!--Folder--&gt;/旧图片名字1</td>
+                                <td>
+                                    <div>
+                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="旧图片名字1" />
+                                        <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="old-img-tr">
+                                <td>&lt;!--Folder--&gt;/旧图片名字2</td>
+                                <td>
+                                    <div>
+                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="旧图片名字2" />
+                                        <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="new-img-tr">
                                 <td></td>
                                 <td>
                                     <div class="hidden">
+                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="" />
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
                                     </div>
                                     <div class="uploadButton">
-                                        <label for="file1">添&nbsp;&nbsp;加</label>
-                                        <input type="file" form="newArticle" id="file1" name="file1" onchange="refreshImgTr(this)">
+                                        <label for="img1">添&nbsp;&nbsp;加</label>
+                                        <input type="file" form="newArticle" id="img1" name="img1" onchange="refreshImgTr(this)">
                                     </div>
                                 </td>
                             </tr>
@@ -89,7 +110,7 @@
                     <textarea form="ReplyFormCID" name="article" placeholder="请在此处使用MarkDown语法输入正文内容。（插入图片时先上传图片，然后使用上述列表展示的图片路径）"></textarea>
                 </div>
                 <div class="edit-container-submit">
-                    <input type="button" class="manageButton" onclick="cancelPost()" value="取消"/>
+                    <input type="button" class="manageButton" onclick="openWebpage('home.html')" value="取消"/>
                     <input type="submit" form="newArticle" class="manageButton" name="submit_article" value="发布"/>
                 </div>
             </div>
@@ -153,23 +174,35 @@
                 else
                     fileName = filePath;
                 var tr_obj = obj.parentNode.parentNode.parentNode;
-                tr_obj.children[0].innerHTML = fileName;
+                tr_obj.children[0].innerHTML = "&lt;!--Folder--&gt;/"+fileName;
+                tr_obj.children[1].children[0].children[0].setAttribute("value",fileName);
                 tr_obj.children[1].children[0].style.display = "block";
                 tr_obj.children[1].children[1].style.display = "none";
                 // 创建新行
                 var new_tr = document.createElement("tr");
+                new_tr.setAttribute("class","new-img-tr");
                 new_tr.appendChild(document.createElement("td"));
                 new_tr.appendChild(document.createElement("td"));
                 new_tr.children[1].appendChild(document.createElement("div"));
                 new_tr.children[1].children[0].setAttribute("class","hidden");
+
+                new_tr.children[1].children[0].appendChild(document.createElement("input"));
+                new_tr.children[1].children[0].children[0].setAttribute("class","hidden");
+                new_tr.children[1].children[0].children[0].setAttribute("type","checkbox");
+                new_tr.children[1].children[0].children[0].setAttribute("form","newArticle");
+                new_tr.children[1].children[0].children[0].setAttribute("name","retainImg");
+
                 new_tr.children[1].children[0].appendChild(document.createElement("button"));
-                new_tr.children[1].children[0].children[0].setAttribute("class","deleteButton");
-                new_tr.children[1].children[0].children[0].innerHTML = "删&nbsp;&nbsp;除";
-                new_tr.children[1].children[0].children[0].setAttribute("onclick", "deleteImgTr(this)");
+                new_tr.children[1].children[0].children[1].setAttribute("class","deleteButton");
+                new_tr.children[1].children[0].children[1].innerHTML = "删&nbsp;&nbsp;除";
+                new_tr.children[1].children[0].children[1].setAttribute("onclick", "deleteImgTr(this)");
+                
                 new_tr.children[1].appendChild(document.createElement("div"));
                 new_tr.children[1].children[1].setAttribute("class","uploadButton");
+                
                 new_tr.children[1].children[1].appendChild(document.createElement("label"));
                 new_tr.children[1].children[1].children[0].innerHTML = "添&nbsp;&nbsp;加";
+                
                 new_tr.children[1].children[1].appendChild(document.createElement("input"));
                 new_tr.children[1].children[1].children[1].setAttribute("type", "file");
                 new_tr.children[1].children[1].children[1].setAttribute("form", "newArticle");
@@ -179,13 +212,13 @@
             }
             function updateImgTable() {
                 // 更新文件列表的id和name
-                var tbody_obj = document.getElementById("imgTable").children[0];
-                for (var i=1; i<tbody_obj.children.length; i++)
+                var trLists = document.getElementsByClassName("new-img-tr");
+                for (var i=0; i<trLists.length; i++)
                 {
                     var str = "img"+i;
-                    tbody_obj.children[i].getElementsByTagName("label")[0].setAttribute("for", str);
-                    tbody_obj.children[i].getElementsByTagName("input")[0].setAttribute("id", str);
-                    tbody_obj.children[i].getElementsByTagName("input")[0].setAttribute("name", str);
+                    trLists[i].getElementsByTagName("label")[0].setAttribute("for", str);
+                    trLists[i].getElementsByTagName("input")[1].setAttribute("id", str);
+                    trLists[i].getElementsByTagName("input")[1].setAttribute("name", str);
                 }
             }
             function deleteImgTr(obj) {
@@ -193,10 +226,6 @@
                 var table_obj = tr_obj.parentNode;
                 table_obj.removeChild(tr_obj);
                 updateImgTable();
-            }
-            function cancelPost()
-            {
-                
             }
             function checkSubmit(obj)
             {
