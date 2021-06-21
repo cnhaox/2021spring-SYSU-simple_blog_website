@@ -51,22 +51,25 @@
         </div>
         <div id="mainPart">
             <div id="article-container">
-                <h1>这是文章标题</h1>
-                <div class="article-mes">
-                    <span class="comment-name comment-name-large">作者</span>
-                    &nbsp;&nbsp;
-                    <span class="comment-time comment-time-large">2021-01-01 12:00:30</span>
+                <div id="article-header">
+                    <h1>这是文章标题</h1>
+                    <div class="article-mes">
+                        <span class="comment-name comment-name-large">作者</span>
+                        &nbsp;&nbsp;
+                        <span class="comment-time comment-time-large">2021-01-01 12:00:30</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag-header">标签：</span> <span class="tag-span">标签1</span>&nbsp;|&nbsp;<span class="tag-span">标签2</span>&nbsp;|&nbsp;<span class="tag-span">标签3</span>
+                    </div>
                 </div>
-                <div class="article-tags">
-                    <span class="tag-header">标签：</span> <span class="tag-span">标签1</span>&nbsp;|&nbsp;<span class="tag-span">标签2</span>&nbsp;|&nbsp;<span class="tag-span">标签3</span>
+                <div id="article-body">
+                    <p>
+                        这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
+                        这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
+                        这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
+                    </p>
+                    <p>好，文章结束了。</p>
                 </div>
-
-                <p>
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                    这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。这是文章段落。
-                </p>
-                <p>好，文章结束了。</p>
             </div>
 
             <div class="comment-editor-container">
@@ -299,6 +302,12 @@
                 var num = obj.parentNode.parentNode.children.length;
                 if (boolValue)
                 {
+                    var objList = document.getElementsByClassName("comment-block-editor");
+                    for (var i=0; i<objList.length; i++)
+                    {
+                        objList[i].parentNode.children[num-2].style.display = "block";
+                        objList[i].parentNode.children[num-1].style.display = "none";
+                    }
                     obj.parentNode.parentNode.children[num-2].style.display = "none";
                     obj.parentNode.parentNode.children[num-1].style.display = "block";
                 }

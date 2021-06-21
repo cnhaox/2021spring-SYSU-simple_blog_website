@@ -2,14 +2,14 @@
     position: relative;
     margin: 100px 50px;
 }
-#article-container * {
-    margin: 5px 0px;
+#article-header,#article-body {
+    padding: 10px 0px;
 }
 #article-container p {
     text-indent: 2em;
 }
-#article-container .article-mes, #article-container .article-tags {
-    margin: 10px 5px;
+#article-header * {
+    margin: 5px 0px;
 }
 .tag-span {
     color: green;
