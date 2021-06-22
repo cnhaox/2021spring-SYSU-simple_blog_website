@@ -77,6 +77,49 @@
 			margin: 0px auto;
 			font-size: 1.5rem;
 	}
+	#passwordDiv {
+    position: relative;
+    height: 40px;
+    width: 400px;
+    margin: 20px auto;
+	display: none;
+}
+#passwordDiv * {
+	box-sizing: border-box;
+}
+#passwordDiv form{
+    width: 100%;
+    height: 100%;
+}
+#passwordDiv form input:nth-child(1){
+    width: 320px;
+    height: 100%;
+    font-size: 16px;
+    text-indent: 30px;
+    float: left;
+	border-radius: 8px 0px 0px 8px;
+	border: solid 1px #ffffff;
+	background-color: rgba(255,255,255,0);
+	color: white;
+}
+#passwordDiv form input:nth-child(1):hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+#passwordDiv form input:nth-child(2){
+    width: 80px;
+    height: 100%;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+	border-radius: 0px 8px 8px 0px;
+	border: solid 1px #ffffff;
+	background-color: rgba(255,255,255,0);
+}
+#passwordDiv form input:nth-child(2):hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
 </style>
 </head>
 <body>
@@ -84,9 +127,15 @@
 	<div id="title">Welcome To My Blog !</div>
 	<div id="nav">
 		<ul>
-			<li><a href="home.html">游客入口</a></li>
-			<li><a href="home.html">管理员入口</a></li>
+			<li><a onclick="">游客入口</a></li>
+			<li id="managerEntry"><a onclick="displayPasswordDiv(true)">管理员入口</a></li>
 		</ul>
+		<div id="passwordDiv">
+			<form action="" method="post">
+				<input type="password" name="password" placeholder="请输入密码（默认：123）">
+				<input type="submit" name="submit" value="确&nbsp;&nbsp;认">
+			</form> 
+		</div>
 	</div>
 	<div id="footer">
 		<p>&copy; 2021 SYSU Web</p>
@@ -102,6 +151,17 @@
 
 		}
 		window.onresize();
+		function displayPasswordDiv(boolValue) {
+			var div = document.getElementById("passwordDiv");
+			if (boolValue)
+			{
+				div.children[0].children[0].value = "";
+				div.style.display = "block";
+			}
+			else
+			div.style.display = "none";
+		}
+			
 	</script>
 </body>
 </html>
