@@ -217,9 +217,10 @@
                 for (var i=0; i<trLists.length; i++)
                 {
                     var str = "img"+i;
-                    trLists[i].getElementsByTagName("label")[0].setAttribute("for", str);
-                    trLists[i].getElementsByTagName("input")[1].setAttribute("id", str);
-                    trLists[i].getElementsByTagName("input")[1].setAttribute("name", str);
+                    var uploadButton = trLists[i].children[1].children[1];
+                    uploadButton.children[0].setAttribute("for", str);
+                    uploadButton.children[1].setAttribute("id", str);
+                    uploadButton.children[1].setAttribute("name", str);
                 }
             }
             function deleteImgTr(obj) {
