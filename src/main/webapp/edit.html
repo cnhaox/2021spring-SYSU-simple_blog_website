@@ -65,8 +65,8 @@
                                 <td>&lt;!--Folder--&gt;/旧图片名字1</td>
                                 <td>
                                     <div>
-                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="旧图片名字1" />
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
+                                        <input type="hidden" form="newArticle" name="#旧图片名字1" value="1" />
                                     </div>
                                 </td>
                             </tr>
@@ -74,8 +74,8 @@
                                 <td>&lt;!--Folder--&gt;/旧图片名字2</td>
                                 <td>
                                     <div>
-                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="旧图片名字2" />
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
+                                        <input type="hidden" form="newArticle" name="#旧图片名字2" value="1" />
                                     </div>
                                 </td>
                             </tr>
@@ -84,7 +84,6 @@
                                 <td></td>
                                 <td>
                                     <div class="hidden">
-                                        <input class="hidden" type="checkbox" form="newArticle" name="retainImg" value="" />
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
                                     </div>
                                     <div class="uploadButton">
@@ -174,8 +173,16 @@
                 else
                     fileName = filePath;
                 var tr_obj = obj.parentNode.parentNode.parentNode;
+                // 显示名字
                 tr_obj.children[0].innerHTML = "&lt;!--Folder--&gt;/"+fileName;
-                tr_obj.children[1].children[0].children[0].setAttribute("value",fileName);
+                // 添加保留文件标记
+                var new_input = document.createElement("input");
+                new_input.setAttribute("type","hidden");
+                new_input.setAttribute("form","newArticle");
+                new_input.setAttribute("name","#"+fileName);
+                new_input.setAttribute("value","1");
+                tr_obj.children[1].children[0].appendChild(new_input);
+                // 切换显示
                 tr_obj.children[1].children[0].style.display = "block";
                 tr_obj.children[1].children[1].style.display = "none";
                 // 创建新行
@@ -186,16 +193,10 @@
                 new_tr.children[1].appendChild(document.createElement("div"));
                 new_tr.children[1].children[0].setAttribute("class","hidden");
 
-                new_tr.children[1].children[0].appendChild(document.createElement("input"));
-                new_tr.children[1].children[0].children[0].setAttribute("class","hidden");
-                new_tr.children[1].children[0].children[0].setAttribute("type","checkbox");
-                new_tr.children[1].children[0].children[0].setAttribute("form","newArticle");
-                new_tr.children[1].children[0].children[0].setAttribute("name","retainImg");
-
                 new_tr.children[1].children[0].appendChild(document.createElement("button"));
-                new_tr.children[1].children[0].children[1].setAttribute("class","deleteButton");
-                new_tr.children[1].children[0].children[1].innerHTML = "删&nbsp;&nbsp;除";
-                new_tr.children[1].children[0].children[1].setAttribute("onclick", "deleteImgTr(this)");
+                new_tr.children[1].children[0].children[0].setAttribute("class","deleteButton");
+                new_tr.children[1].children[0].children[0].innerHTML = "删&nbsp;&nbsp;除";
+                new_tr.children[1].children[0].children[0].setAttribute("onclick", "deleteImgTr(this)");
                 
                 new_tr.children[1].appendChild(document.createElement("div"));
                 new_tr.children[1].children[1].setAttribute("class","uploadButton");
