@@ -66,7 +66,7 @@
                                 <td>
                                     <div>
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
-                                        <input type="hidden" form="newArticle" name="#旧图片名字1" value="1" />
+                                        <input type="hidden" form="newArticle" name="旧图片名字1" value="1" />
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
                                 <td>
                                     <div>
                                         <button class="deleteButton" onclick="deleteImgTr(this)">删&nbsp;&nbsp;除</button>
-                                        <input type="hidden" form="newArticle" name="#旧图片名字2" value="1" />
+                                        <input type="hidden" form="newArticle" name="旧图片名字2" value="1" />
                                     </div>
                                 </td>
                             </tr>
@@ -179,7 +179,7 @@
                 var new_input = document.createElement("input");
                 new_input.setAttribute("type","hidden");
                 new_input.setAttribute("form","newArticle");
-                new_input.setAttribute("name","#"+fileName);
+                new_input.setAttribute("name", fileName);
                 new_input.setAttribute("value","1");
                 tr_obj.children[1].children[0].appendChild(new_input);
                 // 切换显示
