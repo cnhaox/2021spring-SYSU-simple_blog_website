@@ -175,13 +175,6 @@
                 var tr_obj = obj.parentNode.parentNode.parentNode;
                 // 显示名字
                 tr_obj.children[0].innerHTML = "&lt;!--Folder--&gt;/"+fileName;
-                // 添加保留文件标记
-                var new_input = document.createElement("input");
-                new_input.setAttribute("type","hidden");
-                new_input.setAttribute("form","newArticle");
-                new_input.setAttribute("name", fileName);
-                new_input.setAttribute("value","1");
-                tr_obj.children[1].children[0].appendChild(new_input);
                 // 切换显示
                 tr_obj.children[1].children[0].style.display = "block";
                 tr_obj.children[1].children[1].style.display = "none";
