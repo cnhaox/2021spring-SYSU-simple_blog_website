@@ -30,7 +30,7 @@
     <div id="nav">
         <ul>
             <li><a href="home.jsp">游客入口</a></li>
-            <li id="managerEntry"><a onclick="displayPasswordDiv(true)">管理员入口</a></li>
+            <li id="managerEntry"><a onclick="displayPasswordDiv(true)" style="cursor:pointer;">管理员入口</a></li>
         </ul>
         <div id="passwordDiv">
             <form action="index.jsp" method="post">

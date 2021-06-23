@@ -43,6 +43,7 @@
 #nav ul li {
     border-left: solid 1px #ffffff;
     width: 200px;
+    cursor: pointer;
 }
 #nav ul li:first-child {
     border-left: 0;
@@ -57,6 +58,7 @@
     font-size: 1rem;
     color: #ffffff;
     text-decoration: none;
+    cursor: pointer;
 }
 #nav ul li a:hover {
     background-color: rgba(255, 255, 255, 0.15);

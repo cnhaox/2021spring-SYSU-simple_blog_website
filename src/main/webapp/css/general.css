@@ -36,6 +36,7 @@ body {
     margin: 20px auto;
     background: rgb(57,165,247);
     border-radius: 50%;
+    cursor: pointer;
 }
 #headPortrait {
     width: 100%;
@@ -44,6 +45,7 @@ body {
     background-image: url("../img/pic.jpeg");
     transform: scale(1);
     transition: all 1s;
+    cursor: pointer;
 }
 #headPortraitContainer:hover #headPortrait {
     transform: scale(0.8);
