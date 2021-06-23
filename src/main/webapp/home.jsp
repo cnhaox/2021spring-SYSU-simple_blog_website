@@ -154,7 +154,7 @@
     <body>
         <div id="leftPart">
             <div id="nameContainer">
-                <div id="headPortraitContainer">
+                <div id="headPortraitContainer" onclick="openWebpage('index.jsp')"  style="cursor:pointer;">
                     <div id="headPortrait"></div>
                 </div>
                 <div id="blogName">
