@@ -3,6 +3,34 @@
 <%@ page import="org.apache.commons.fileupload.*"%>
 <%@ page import="org.apache.commons.fileupload.disk.*"%>
 <%@ page import="org.apache.commons.fileupload.servlet.*"%>
+<%
+    String userType = (String)session.getAttribute("userType");
+    boolean isManager = false;
+    if (userType==null)
+        response.sendRedirect("index.jsp");
+    else if (userType.equals("manager"))
+        isManager = true;
+%>
+<%
+    // 获取名字
+    String namePath = application.getRealPath("info");
+    File introFile = new File(namePath,"per_info.txt");
+    Map<String, String> info = new HashMap<String, String>();
+    String BLOGName = "";
+    if (introFile.exists()) {
+        FileInputStream ch = new FileInputStream(introFile);
+        InputStreamReader fr = new InputStreamReader(ch,"UTF-8");
+        BufferedReader br = new BufferedReader(fr);  //使文件可按行读取并具有缓冲功能
+        String str = br.readLine();
+        while(str!=null){
+            info.put(str, br.readLine());   //将读取的内容放入info
+            str = br.readLine();
+        }
+        br.close();
+        BLOGName = info.get("name");
+    }
+%>
+
 <%request.setCharacterEncoding("utf-8");%>
 <% String path = application.getRealPath("info");
 File file = new File(path,"files.txt");
@@ -80,7 +108,7 @@ fw.close();
 <html lang="zh-cn">
     <head>
         <meta charset="utf-8" />
-        <title>个人博客</title>
+        <title>files</title>
         <link rel="stylesheet" type="text/css" href="css/general.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
         <style>
@@ -101,6 +129,12 @@ fw.close();
             }
             table { margin-bottom: 60px; }
         </style>
+        <script>
+            if ( window.history.replaceState )
+            {
+                window.history.replaceState( null, null, window.location.href );
+            }
+        </script>
     </head>
     <body>
         <div id="leftPart">
@@ -109,7 +143,7 @@ fw.close();
                     <div id="headPortrait"></div>
                 </div>
                 <div id="blogName">
-                    <h2>XX的个人博客</h2>
+                    <h2><%=BLOGName%>的个人博客</h2>
                 </div>
             </div>
             <div id="menuContainer">
@@ -160,14 +194,17 @@ fw.close();
                                     <span>下&nbsp;&nbsp;载</span>
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </button>
+                                <% if (isManager) {%>
                                 <form action="files.jsp" method="post" onsubmit="return checkDelete(this)">
                                     <input type="hidden" name="fileID" value="<%= copy.get(i) %>">
                                     <input type="submit" class="deleteButton" name="delete" value="删&nbsp;&nbsp;除">
                                 </form>
+                                <%}%>
                             </td>
                         </tr>
                         <% } %>
                     </table>
+                    <% if (isManager) {%>
                 	<div class="upload">
                         <form name="divfileupload" id="fileUpload" action="files.jsp" method="post" enctype="multipart/form-data">
                         </form>
@@ -179,6 +216,7 @@ fw.close();
                         <span class="fileName"></span>
                         <input type="submit" name="submit" form="fileUpload" value="上  传" class="upload-submit-button">
                     </div>
+                    <%}%>
                 </div>
             </div>
         </div>

@@ -9,6 +9,34 @@
 <%@ page import = "org.apache.commons.fileupload.disk.*" %>
 <%@ page import = "org.apache.commons.fileupload.servlet.*" %>
 <%
+    String userType = (String)session.getAttribute("userType");
+    boolean isManager = false;
+    if (userType==null)
+        response.sendRedirect("index.jsp");
+    else if (userType.equals("visitor"))
+        response.sendRedirect("index.jsp");
+%>
+<%
+    // 获取名字
+    String namePath = application.getRealPath("info");
+    File introFile = new File(namePath,"per_info.txt");
+    Map<String, String> info = new HashMap<String, String>();
+    String BLOGName = "";
+    if (introFile.exists()) {
+        FileInputStream ch = new FileInputStream(introFile);
+        InputStreamReader fr = new InputStreamReader(ch,"UTF-8");
+        BufferedReader br = new BufferedReader(fr);  //使文件可按行读取并具有缓冲功能
+        String str = br.readLine();
+        while(str!=null){
+            info.put(str, br.readLine());   //将读取的内容放入info
+            str = br.readLine();
+        }
+        br.close();
+        BLOGName = info.get("name");
+    }
+%>
+
+<%
 	String msg = "";
 	String title = "";
 	String author = "";
@@ -305,7 +333,7 @@
                     <div id="headPortrait"></div>
                 </div>
                 <div id="blogName">
-                    <h2>XX的个人博客</h2>
+                    <h2><%=BLOGName%>的个人博客</h2>
                 </div>
             </div>
             <div id="menuContainer">

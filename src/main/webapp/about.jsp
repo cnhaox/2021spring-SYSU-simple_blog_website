@@ -1,12 +1,20 @@
 <%@ page language="java" import="java.util.*, java.io.*"
 contentType="text/html; charset=utf-8" %>
+<%
+    String userType = (String)session.getAttribute("userType");
+    boolean isManager = false;
+    if (userType==null)
+        response.sendRedirect("index.jsp");
+    else if (userType.equals("manager"))
+        isManager = true;
+%>
 <%request.setCharacterEncoding("utf-8");
 	String path = application.getRealPath("info");
 	File file = new File(path,"per_info.txt");
-	if (!file.getParentFile().exists())
-	    file.getParentFile().mkdir();
-	if (!file.exists())
-	    file.createNewFile();
+	//if (!file.getParentFile().exists())
+	//    file.getParentFile().mkdir();
+	//if (!file.exists())
+	//    file.createNewFile();
 	Map<String, String> info = new HashMap<String, String>();
 	if (file.exists()) {
 		FileInputStream ch = new FileInputStream(file);
@@ -54,7 +62,7 @@ contentType="text/html; charset=utf-8" %>
 <html lang="zh-cn">
     <head>
         <meta charset="utf-8" />
-        <title>个人博客</title>
+        <title>about</title>
         <link rel="stylesheet" type="text/css" href="css/general.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="css/about.css" />
@@ -74,7 +82,7 @@ contentType="text/html; charset=utf-8" %>
                     <div id="headPortrait"></div>
                 </div>
                 <div id="blogName">
-                    <h2>XX的个人博客</h2>
+                    <h2><%=name%>的个人博客</h2>
                 </div>
             </div>
             <div id="menuContainer">
@@ -89,7 +97,7 @@ contentType="text/html; charset=utf-8" %>
                 <div class="menuHover menuHover2" onclick="openWebpage('tags.jsp')"></div>
                 <div class="menuHover menuHover3" onclick="openWebpage('files.jsp')"></div>
                 <div class="menuHover menuHover4" onclick="openWebpage('about.jsp')"></div>
-                <div class="menuChecked"">
+                <div class="menuChecked">
                     <ul class="menu">
                         <li>Home</li>
                         <li>Tags</li>
@@ -104,9 +112,11 @@ contentType="text/html; charset=utf-8" %>
             <div class="aboutDivList">
                 <h1>About Me</h1>
                 <div class="aboutDiv">
+                    <% if (isManager) {%>
                     <div class="showed">
                         <button class="manageButton manageButton-bigger" onclick="openManage(true)">修改信息</button>
                     </div>
+                    <%}%>
                     <form action="" method="post" id="mesForm" class="formStyle" onsubmit="return checkSubmit(this)">
                     </form>
                     <h2>个人简介</h2>
@@ -154,19 +164,6 @@ contentType="text/html; charset=utf-8" %>
                     </div>
                     <div class="hidden">
                         <textarea form="mesForm" name="blog_mes" class="text-style text-bigger-style" placeholder=""><%= blog_mes %></textarea>
-                    </div>
-                </div>
-                <div class="aboutDiv hidden">
-                    <h2>背景头像</h2>
-                    <div class="upload">
-                        <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkSubmit()">
-                            <span class="fileTip">修改背景：</span><a class="a-upload"><input type="file" name="file" onchange="refreshImgName(this)">选择图片</a><span class="fileName"></span><input type="submit" name="submit_img1" value="OK" class="uploadButton">
-                        </form>
-                    </div>
-                    <div class="upload">
-                        <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkSubmit()">
-                            <span class="fileTip">修改头像：</span><a class="a-upload"><input type="file" name="file" onchange="refreshImgName(this)">选择图片</a><span class="fileName"></span><input type="submit" name="submit_img2" value="OK" class="uploadButton">
-                        </form>
                     </div>
                 </div>
                 <div class="aboutDiv hidden" id="manage_div">

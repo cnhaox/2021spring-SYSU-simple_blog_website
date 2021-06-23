@@ -1,0 +1,16 @@
+name
+张三
+school
+大山中学
+hobby
+编程，设计网站。
+status
+热爱学习！
+contact
+12345@mail.com
+introduction
+米娜桑，dasuki!
+blog_mes
+三次元的聚集地！
+submit_mes
+修改

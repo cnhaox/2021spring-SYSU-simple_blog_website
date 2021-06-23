@@ -9,6 +9,33 @@
 <%@ page import = "org.apache.commons.fileupload.disk.*" %>
 <%@ page import = "org.apache.commons.fileupload.servlet.*" %>
 <%
+    String userType = (String)session.getAttribute("userType");
+    boolean isManager = false;
+    if (userType==null)
+        response.sendRedirect("index.jsp");
+    else if (userType.equals("manager"))
+        isManager = true;
+%>
+<%
+    // 获取名字
+    String namePath = application.getRealPath("info");
+    File introFile = new File(namePath,"per_info.txt");
+    Map<String, String> info = new HashMap<String, String>();
+    String BLOGName = "";
+    if (introFile.exists()) {
+        FileInputStream ch = new FileInputStream(introFile);
+        InputStreamReader fr = new InputStreamReader(ch,"UTF-8");
+        BufferedReader br = new BufferedReader(fr);  //使文件可按行读取并具有缓冲功能
+        String str = br.readLine();
+        while(str!=null){
+            info.put(str, br.readLine());   //将读取的内容放入info
+            str = br.readLine();
+        }
+        br.close();
+        BLOGName = info.get("name");
+    }
+%>
+<%
     String msg ="";
     String title_list1 = "";
     String title_list2 = "";
@@ -110,7 +137,7 @@
 <html lang="zh-cn">
     <head>
         <meta charset="utf-8" />
-        <title>个人博客</title>
+        <title>home</title>
         <link rel="stylesheet" type="text/css" href="css/general.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="css/home.css" />
@@ -131,7 +158,7 @@
                     <div id="headPortrait"></div>
                 </div>
                 <div id="blogName">
-                    <h2>XX的个人博客</h2>
+                    <h2><%=BLOGName%>的个人博客</h2>
                 </div>
             </div>
             <div id="menuContainer">
@@ -169,10 +196,12 @@
                 <div style="clear:both"></div>
                 <h1>文章</h1>
                 <div class="titleList" id="titleList1">
+                    <% if (isManager) {%>
                     <div class="manage">
                         <input type="button" class="manageButton" onclick="openWebpage('edit.jsp')" value="发布"/>
                         <input type="button" class="manageButton" onclick="manageArticle(true)" value="管理"/>
                     </div>
+                    <%}%>
                     <div style="clear:both"></div>
 <%=title_list1%>
                     <div><%=msg%></div>
