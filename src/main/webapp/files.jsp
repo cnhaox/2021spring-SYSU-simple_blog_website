@@ -177,7 +177,7 @@ fw.close();
                             <input type="file" form="fileUpload" id="fileinput" name="file" onchange="refreshFileName(this)">
                         </div>
                         <span class="fileName"></span>
-                        <input type="submit" name="submit" value="上  传" class="upload-submit-button">
+                        <input type="submit" name="submit" form="fileUpload" value="上  传" class="upload-submit-button">
                     </div>
                 </div>
             </div>

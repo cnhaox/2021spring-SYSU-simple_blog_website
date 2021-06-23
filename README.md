@@ -6,49 +6,19 @@ src/init.sql
 
 ## 数据库
 
-### 实体
+### ER图
 
-1. Article
-    - ATime
-    - Title
-    - Author
-2. Tag
-    - TName
-3. Text（弱实体）
-    - ATime
-    - AContent
-4. Comment
-    - CTime
-    - CNickname
-    - CEmail
-    - CContent
-5. Subcomment
-    - STime
-    - Target
-    - SNickname
-    - SEmail
-    - SContent
-
-### 联系
-
-1. Article_Tag
-    - 多Article对多Tag联系
-2. Article_Text
-    - 1对1联系
-3. Article_Comment
-    - 1 Article对多Comment联系
-4. Comment_Subcomment
-    - 1 Comment对多Subcomment联系
+![ER图](images/ER图.png)
 
 ### 表
 
 1. Article
     - ATime datetime
     - Title varchar(50)
-    - Author varchar(20)
+    - Author varchar(50)
     - primary key(ATime)
 2. Tag
-    - TName varchar(20)
+    - TName varchar(50)
     - ATime datetime
     - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(TName, ATime)
@@ -60,7 +30,7 @@ src/init.sql
 4. Comment
     - CTime datetime
     - ATime datetime
-    - CNickname varchar(20)
+    - CNickname varchar(50)
     - CEmail varchar(50)
     - CContent text
     - foreign key(ATime) references Article(ATime) on delete cascade
@@ -69,8 +39,8 @@ src/init.sql
     - STime datetime
     - CTime datetime
     - ATime datetime
-    - Target varchar(20)
-    - SNickname varchar(20)
+    - Target varchar(50)
+    - SNickname varchar(50)
     - SEmail varchar(50)
     - SContent text
     - foreign key(CTime) references Content(CTime) on delete cascade

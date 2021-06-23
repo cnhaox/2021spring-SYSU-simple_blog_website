@@ -90,12 +90,12 @@
                     	if (mode_is_update)
                     	{
                             fmt = "update Text set AContent='%s' where ATime='%s'";
-                            sql = String.format(fmt, content.replace("\\", "\\\\"), ATime);
+                            sql = String.format(fmt, content.replace("\\", "\\\\").replace("'", "''"), ATime);
                     	}
                         else
                         {
                             fmt = "insert into Text values('%s', '%s')";
-                            sql = String.format(fmt, ATime, content.replace("\\", "\\\\"));
+                            sql = String.format(fmt, ATime, content.replace("\\", "\\\\").replace("'", "''"));
                         }
                         int cnt = stmt.executeUpdate(sql);
                         if (cnt > 0)
@@ -292,7 +292,12 @@
                 top: -0px;
             }
         </style>
-    </head>
+        <script>
+            if ( window.history.replaceState )
+            {
+                window.history.replaceState( null, null, window.location.href );
+            }
+        </script>
     <body>
         <div id="leftPart">
             <div id="nameContainer">
