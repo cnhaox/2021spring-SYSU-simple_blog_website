@@ -26,7 +26,7 @@
 	}
 	#title {
 			position: relative;
-			top: 250px;
+			top: 160px;
 			margin: 0px auto;
 			color: #ffffff;
 			text-align: center;
@@ -34,9 +34,10 @@
 			font-weight: bold;
 	}
 	#nav {
-		position: relative;
-		top: 400px;
-		margin: 0px auto;
+			position: relative;
+			top: 280px;
+			margin: 0px auto;
+			height: 150px;
 	}
     #nav ul {
 			display: flex;
@@ -73,52 +74,59 @@
 	#footer {
             text-align: center;
 			position: relative;
-			top: 600px;
+			top: 400px;
 			margin: 0px auto;
 			font-size: 1.5rem;
 	}
 	#passwordDiv {
-    position: relative;
-    height: 40px;
-    width: 400px;
-    margin: 20px auto;
-	display: none;
-}
-#passwordDiv * {
-	box-sizing: border-box;
-}
-#passwordDiv form{
-    width: 100%;
-    height: 100%;
-}
-#passwordDiv form input:nth-child(1){
-    width: 320px;
-    height: 100%;
-    font-size: 16px;
-    text-indent: 30px;
-    float: left;
-	border-radius: 8px 0px 0px 8px;
-	border: solid 1px #ffffff;
-	background-color: rgba(255,255,255,0);
-	color: white;
-}
-#passwordDiv form input:nth-child(1):hover {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-#passwordDiv form input:nth-child(2){
-    width: 80px;
-    height: 100%;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-	border-radius: 0px 8px 8px 0px;
-	border: solid 1px #ffffff;
-	background-color: rgba(255,255,255,0);
-}
-#passwordDiv form input:nth-child(2):hover {
-    background-color: rgba(255, 255, 255, 0.15);
-}
+	    position: relative;
+	    height: 40px;
+	    width: 400px;
+	    margin: 50px auto;
+		display: none;
+	}
+	#passwordDiv * {
+		box-sizing: border-box;
+	}
+	#passwordDiv form{
+	    width: 100%;
+	    height: 100%;
+	}
+	#passwordDiv form input:nth-child(1){
+	    width: 320px;
+	    height: 100%;
+	    font-size: 16px;
+	    text-indent: 30px;
+	    float: left;
+		border-radius: 8px 0px 0px 8px;
+		border: solid 1px #ffffff;
+		background-color: rgba(255,255,255,0);
+		color: white;
+	}
+	#passwordDiv form input:nth-child(1):hover {
+	    background-color: rgba(255, 255, 255, 0.15);
+	}
+	#passwordDiv form input:nth-child(2){
+	    width: 80px;
+	    height: 100%;
+	    font-size: 16px;
+	    color: white;
+	    cursor: pointer;
+	    text-align: center;
+		border-radius: 0px 8px 8px 0px;
+		border: solid 1px #ffffff;
+		border-left: 0;
+		background-color: rgba(255,255,255,0);
+	}
+	#passwordDiv form input:nth-child(2):hover {
+	    background-color: rgba(255, 255, 255, 0.15);
+	}
+    input:focus {
+     	border-color: #66afe9;
+      	outline: 0;
+      	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+       	box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+  	}
 
 </style>
 </head>
@@ -127,13 +135,13 @@
 	<div id="title">Welcome To My Blog !</div>
 	<div id="nav">
 		<ul>
-			<li><a onclick="">游客入口</a></li>
+			<li><a href="home.jsp">游客入口</a></li>
 			<li id="managerEntry"><a onclick="displayPasswordDiv(true)">管理员入口</a></li>
 		</ul>
 		<div id="passwordDiv">
-			<form action="" method="post">
-				<input type="password" name="password" placeholder="请输入密码（默认：123）">
-				<input type="submit" name="submit" value="确&nbsp;&nbsp;认">
+			<form action="home.jsp" method="post">
+				<input type="password" id="password" placeholder="请输入密码（默认：123）">
+				<input type="submit" name="submit" value="确&nbsp;&nbsp;认" onclick="return submit1()">
 			</form> 
 		</div>
 	</div>
@@ -143,12 +151,11 @@
 
 	<script>
 		window.onresize = function() {
-			var clientWidth = Math.max(document.body.clientWidth, document.documentElement.clientWidth);
-			var clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+			var clientWidth = document.documentElement.scrollWidth;
+			var clientHeight = Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight);
 			var shadow = document.getElementById("shadow");
 			shadow.style.width = "" + clientWidth + "px";
 			shadow.style.height = "" + clientHeight + "px";
-
 		}
 		window.onresize();
 		function displayPasswordDiv(boolValue) {
@@ -161,7 +168,16 @@
 			else
 			div.style.display = "none";
 		}
-			
+		function submit1() {
+	          var psw = document.getElementById("password");
+	          if (psw.value != "123") {
+	              psw.value="";
+	              alert("密码错误！请重新输入");
+	              return false;
+	          }
+	          return true;
+	    }
+		
 	</script>
 </body>
 </html>
