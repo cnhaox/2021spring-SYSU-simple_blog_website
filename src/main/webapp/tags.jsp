@@ -55,7 +55,7 @@
         String TName = request.getParameter("tag");
         if (TName != null)
         {
-            sql = "select * from Article, Text, Tag where TName='" + TName + "' and Article.ATime=Tag.ATime and Article.ATime=Text.ATime";
+            sql = "select * from Article, Text, Tag where TName='" + TName.replace("\\", "\\\\").replace("'", "''") + "' and Article.ATime=Tag.ATime and Article.ATime=Text.ATime";
             rs = stmt.executeQuery(sql);
             DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
             DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");

@@ -51,7 +51,7 @@
         String sql = "select * from Article, Text where Article.ATime=Text.ATime";
         if (request.getParameter("search") != null)
         {
-        	sql += " and Title like '%" + request.getParameter("condition") + "%'";
+        	sql += " and Title like '%" + request.getParameter("condition").replace("\\", "\\\\").replace("'", "''") + "%'";
         }
         else if (request.getParameter("delete") != null)
         {

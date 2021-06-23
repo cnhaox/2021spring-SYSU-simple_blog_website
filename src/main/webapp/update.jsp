@@ -25,12 +25,12 @@
                 Statement stmt = con.createStatement();
                 String table = params.nextElement();
                 String key_name = params.nextElement();
-                String key = "'" + request.getParameter(key_name) + "'";
+                String key = request.getParameter(key_name);
                 int attr_num = Integer.parseInt(params.nextElement());
                 String set = "";
                 String attr_name = params.nextElement();
                 String attr = request.getParameter(attr_name);
-                String datetime = "'" + LocalDateTime.now().toString() + "'";
+                String datetime = LocalDateTime.now().toString();
                 if (attr_name.equals("datetime"))
                 {
                     attr_name = attr;
@@ -46,10 +46,10 @@
                         attr_name = attr;
                         attr = datetime;
                     }
-                    set += ", " + attr_name + "='" + attr + "'";
+                    set += ", " + attr_name + "='" + attr.replace("\\", "\\\\").replace("'", "''") + "'";
                 }
-                String fmt = "update %s set %s where %s=%s";
-                String sql = String.format(fmt, table, set, key_name, key);
+                String fmt = "update %s set %s where %s='%s'";
+                String sql = String.format(fmt, table, set, key_name, key.replace("\\", "\\\\").replace("'", "''"));
                 int cnt = stmt.executeUpdate(sql);
                 msg = "cnt:" + cnt;
                 stmt.close();

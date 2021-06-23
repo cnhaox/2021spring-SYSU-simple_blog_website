@@ -85,13 +85,13 @@
                     	if (mode_is_update)
                     	{
                     		fmt = "update Article set Title='%s', Author='%s' where ATime='%s'";
-                    		sql = String.format(fmt, title, author, ATime);
+                    		sql = String.format(fmt, title.replace("\\", "\\\\").replace("'", "''"), author.replace("\\", "\\\\").replace("'", "''"), ATime);
                     	}
                     	else
                     	{
                             ATime = LocalDateTime.now().format(df);
                             fmt = "insert into Article values('%s', '%s', '%s')";
-                            sql = String.format(fmt, ATime, title, author);
+                            sql = String.format(fmt, ATime, title.replace("\\", "\\\\").replace("'", "''"), author.replace("\\", "\\\\").replace("'", "''"));
                     	}
                         int cnt = stmt.executeUpdate(sql);
                         if (cnt > 0)
@@ -163,7 +163,7 @@
                     			try
                     			{
                                     fmt = "delete from Tag where TName='%s' and ATime='%s'";
-                                    sql = String.format(fmt, TName, ATime);
+                                    sql = String.format(fmt, TName.replace("\\", "\\\\").replace("'", "''"), ATime);
                                     int cnt = stmt_new.executeUpdate(sql);
                                     if (cnt > 0)
                                     {
@@ -185,6 +185,8 @@
                             tag_set_old.add(TName);
                     	}
                     }
+                    out.println(tag_set_new);
+                    out.println(tag_set_old);
                 }
                 for (int i = 0; i < tag_list.length; ++i)
                 {
@@ -196,7 +198,7 @@
                             try
                             {
                                 fmt = "insert into Tag values('%s', '%s')";
-                                sql = String.format(fmt, tag_list[i], ATime);
+                                sql = String.format(fmt, tag_list[i].replace("\\", "\\\\").replace("'", "''"), ATime);
                                 int cnt = stmt.executeUpdate(sql);
                                 if (cnt > 0)
                                 {

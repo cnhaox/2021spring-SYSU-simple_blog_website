@@ -26,14 +26,14 @@
                 String table = params.nextElement() + "(";
                 String key_name = params.nextElement();
                 String key = request.getParameter(key_name);
-                String datetime = "'" + LocalDateTime.now().toString() + "'";
+                String datetime = LocalDateTime.now().toString();
                 if (key_name.equals("datetime"))
                 {
                 	key_name = key;
                 	key = datetime;
                 }
                 table += key_name;
-                String values = "values(" + key;
+                String values = "values('" + key.replace("\\", "\\\\").replace("'", "''") + "'";
                 int attr_num = Integer.parseInt(params.nextElement());
                 for (int i = 0; i < attr_num; ++i)
                 {
@@ -45,7 +45,7 @@
                         attr = datetime;
                     }
                     table += "," + attr_name;
-                    values += ",'" + attr + "'";
+                    values += ",'" + attr.replace("\\", "\\\\").replace("'", "''") + "'";
                 }
                 table += ")";
                 values += ")";

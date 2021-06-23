@@ -78,7 +78,7 @@
         	String CTime = LocalDateTime.parse(rs.getString("CTime").replace(" ", "T")).format(idf);
         	String CTime_fmt = LocalDateTime.parse(CTime,idf).format(odf);
         	String CNickname = rs.getString("CNickname");
-        	String form_name = ("ReplyFrom" + CTime).replace(' ', '_');
+        	String form_name = ("ReplyFrom" + CTime);
             comment_list += "<div class='comment-block'>\n";
             comment_list += "    <div class='comment-block-header'>\n";
             comment_list += "        <span class='comment-name comment-name-large'>" + CNickname + "</span>\n";
@@ -123,7 +123,7 @@
             	String STime = LocalDateTime.parse(sub_rs.getString("STime").replace(" ", "T")).format(idf);
                 String STime_fmt = LocalDateTime.parse(STime,idf).format(odf);
             	String SNickname = sub_rs.getString("SNickname");
-            	String sub_form_name = ("SubReplyForm" + STime).replace(' ', '_');
+            	String sub_form_name = ("SubReplyForm" + STime);
                 comment_list += "        <div class='comment-comment'>\n";
                 comment_list += "            <div class='comment-comment-header'>\n";
                 comment_list += "                <span class='comment-name'>" + SNickname + "</span> 于 <span class='comment-time'>" + STime_fmt + "</span> 回复 <span class='comment-name'>" + sub_rs.getString("Target") + "</span>：\n";

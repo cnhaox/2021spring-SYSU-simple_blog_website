@@ -23,7 +23,7 @@
                 String key_name = params.nextElement();
                 String key = "'" + request.getParameter(key_name) + "'";
                 String fmt = "delete from %s where %s=%s";
-                String sql = String.format(fmt, table, key_name, key);
+                String sql = String.format(fmt, table, key_name, key.replace("\\", "\\\\").replace("'", "''"));
                 int cnt = stmt.executeUpdate(sql);
                 msg = "cnt:" + cnt;
                 stmt.close();
