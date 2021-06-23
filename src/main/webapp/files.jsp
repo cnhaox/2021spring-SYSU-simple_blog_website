@@ -166,11 +166,15 @@ fw.close();
                         <% } %>
                     </table>
                 	<div class="upload">
-                        <form name="divfileupload" action="files.jsp" method="post" enctype="multipart/form-data">
-                            <span class="fileTip">上传文件：</span><a class="a-upload">
-                            <input type="file" name="file" onchange="refreshFileName(this)">选择文件</a>
-                            <span class="fileName"></span><input type="submit" name="submit" value="OK" class="uploadButton">
+                        <form name="divfileupload" id="fileUpload" action="files.jsp" method="post" enctype="multipart/form-data">
                         </form>
+                        <span class="fileTip">上传文件：</span>
+                        <div class="uploadButton uploadButton-large button-violet">
+                            <label for="fileinput"><i class="fa fa-cloud-upload fa-2x" aria-hidden="true"></i></label>
+                            <input type="file" form="fileUpload" id="fileinput" name="file" onchange="refreshFileName(this)">
+                        </div>
+                        <span class="fileName"></span>
+                        <input type="submit" name="submit" value="上  传" class="upload-submit-button">
                     </div>
                 </div>
             </div>
