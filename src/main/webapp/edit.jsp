@@ -51,8 +51,8 @@
     {
         mode = "updateArticle";
         String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
-        String user = "blogger_18308013";
-        String pwd = "18340197";
+        String user = "user";
+        String pwd = "123";
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         request.setCharacterEncoding("utf-8");
         boolean isMultipart = ServletFileUpload.isMultipartContent(request); // 是否用multipart提交的?
@@ -185,8 +185,6 @@
                             tag_set_old.add(TName);
                     	}
                     }
-                    out.println(tag_set_new);
-                    out.println(tag_set_old);
                 }
                 for (int i = 0; i < tag_list.length; ++i)
                 {

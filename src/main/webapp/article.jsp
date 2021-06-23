@@ -41,8 +41,8 @@
 	String content = "";
 	String comment_list = "";
     String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
-    String user = "blogger_18308013";
-    String pwd = "18340197";
+    String user = "user";
+    String pwd = "123";
     request.setCharacterEncoding("utf-8");
     String ATime = request.getParameter("ATime");
     String ATime_fmt = LocalDateTime.parse(ATime,idf).format(odf);

@@ -1,4 +1,4 @@
-drop user blogger_18308013;
+drop user user;
 drop database blog_18308045;
 
 create database blog_18308045;
@@ -52,8 +52,8 @@ create table Subcomment
     foreign key(ATime) references Article(ATime) on delete cascade,
     primary key(STime, CTime, ATime)
 );
-create user 'blogger_18308013'@'%' identified by '18340197';
-grant all privileges on blog_18308045.* to blogger_18308013@'%' identified by '18340197';
+create user 'user'@'%' identified by '123';
+grant all privileges on blog_18308045.* to 'user'@'%' identified by '123';
 flush  privileges;
 
 insert into Article values("2021-06-23 17:04:55.366467", "数电实验13", "作者的名字，是什么？");
