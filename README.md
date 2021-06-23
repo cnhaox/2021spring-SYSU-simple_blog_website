@@ -13,32 +13,32 @@ src/init.sql
 ### 表
 
 1. Article
-    - ATime datetime
+    - ATime datetime(6)
     - Title varchar(50)
     - Author varchar(50)
     - primary key(ATime)
 2. Tag
     - TName varchar(50)
-    - ATime datetime
+    - ATime datetime(6)
     - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(TName, ATime)
 3. Text
-    - ATime datetime
+    - ATime datetime(6)
     - AContent longtext
     - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(ATime)
 4. Comment
-    - CTime datetime
-    - ATime datetime
+    - CTime datetime(6)
+    - ATime datetime(6)
     - CNickname varchar(50)
     - CEmail varchar(50)
     - CContent text
     - foreign key(ATime) references Article(ATime) on delete cascade
     - primary key(CTime, ATime)
 5. Subcomment
-    - STime datetime
-    - CTime datetime
-    - ATime datetime
+    - STime datetime(6)
+    - CTime datetime(6)
+    - ATime datetime(6)
     - Target varchar(50)
     - SNickname varchar(50)
     - SEmail varchar(50)
