@@ -7,7 +7,7 @@
 	String msg = "";
 	String title = "";
 	String author = "";
-    DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+    DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
     DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
 	String tags = "";
 	String content = "";
@@ -47,7 +47,7 @@
         rs = stmt.executeQuery(sql);
         while (rs.next())
         {
-        	String CTime = rs.getString("CTime");
+        	String CTime = LocalDateTime.parse(rs.getString("CTime").replace(" ", "T")).format(idf);
         	String CTime_fmt = LocalDateTime.parse(CTime,idf).format(odf);
         	String CNickname = rs.getString("CNickname");
         	String form_name = ("ReplyFrom" + CTime).replace(' ', '_');
@@ -92,7 +92,7 @@
             ResultSet sub_rs = sub_stmt.executeQuery(sub_sql);
             while(sub_rs.next())
             {
-            	String STime = sub_rs.getString("STime");
+            	String STime = LocalDateTime.parse(sub_rs.getString("STime").replace(" ", "T")).format(idf);
                 String STime_fmt = LocalDateTime.parse(STime,idf).format(odf);
             	String SNickname = sub_rs.getString("SNickname");
             	String sub_form_name = ("SubReplyForm" + STime).replace(' ', '_');
@@ -240,7 +240,7 @@
             </div>
             <div class="comment-container">
                 <h2>全部评论</h2>
-                <%=comment_list%>
+<%=comment_list%>
             </div>
         </div>
         <div><%=msg%></div>

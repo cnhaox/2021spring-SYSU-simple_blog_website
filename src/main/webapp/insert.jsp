@@ -38,7 +38,6 @@
                 for (int i = 0; i < attr_num; ++i)
                 {
                     String attr_name = params.nextElement();
-                	out.println(attr_name);
                     String attr = request.getParameter(attr_name);
                     if (attr_name.equals("datetime"))
                     {
@@ -48,7 +47,6 @@
                     table += "," + attr_name;
                     values += ",'" + attr + "'";
                 }
-                out.println("<br>");
                 table += ")";
                 values += ")";
                 String fmt = "insert into %s %s";

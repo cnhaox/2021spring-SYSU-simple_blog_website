@@ -46,7 +46,7 @@
                         attr_name = attr;
                         attr = datetime;
                     }
-                    set += attr_name + "='" + attr + "'";
+                    set += ", " + attr_name + "='" + attr + "'";
                 }
                 String fmt = "update %s set %s where %s=%s";
                 String sql = String.format(fmt, table, set, key_name, key);

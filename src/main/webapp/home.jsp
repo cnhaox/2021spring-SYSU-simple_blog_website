@@ -3,6 +3,11 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
 <%@ page import="java.time.format.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import = "org.apache.commons.io.*" %>
+<%@ page import = "org.apache.commons.fileupload.*" %>
+<%@ page import = "org.apache.commons.fileupload.disk.*" %>
+<%@ page import = "org.apache.commons.fileupload.servlet.*" %>
 <%
     String msg ="";
     String title_list1 = "";
@@ -21,15 +26,48 @@
         {
         	sql += " and Title like '%" + request.getParameter("condition") + "%'";
         }
+        else if (request.getParameter("delete") != null)
+        {
+        	String ATime = request.getParameter("ATime");
+        	int redo = 100;
+            do
+            {
+                try
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    String fmt = "delete from Article where ATime='%s'";
+                    String sql_temp = String.format(fmt, ATime);
+                    int cnt = stmt.executeUpdate(sql_temp);
+                    if (cnt > 0)
+                    {
+                        break;
+                    }
+                    --redo;
+                }
+                catch (Exception e)
+                {
+                    msg = e.getMessage();
+                    --redo;
+                }
+            }
+            while (redo > 0);
+            File dir = new File(application.getRealPath("img/" + ATime.replace(":", "")));
+            for (File file : dir.listFiles())
+            {
+                file.delete();
+            }
+            dir.delete();
+        }
         ResultSet rs = stmt.executeQuery(sql);
-        DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
         while(rs.next())
         {
-            String ATime = rs.getString("ATime");
+            String ATime = LocalDateTime.parse(rs.getString("ATime").replace(" ", "T")).format(idf);
+            String title = rs.getString("Title");
             title_list1 += "<div class='titleBlockDiv' onclick=\"openWebpage('article.jsp?ATime=" + ATime + "')\">\n";
             title_list1 += "    <div class='titleBlock'>\n";
-            title_list1 += "        <h2>" + rs.getString("Title") + "</h2>\n";
+            title_list1 += "        <h2>" + title + "</h2>\n";
             title_list1 += "        <p class=titleMessage>@" + rs.getString("Author") + "&nbsp;|&nbsp;" + LocalDateTime.parse(ATime,idf).format(odf) + "</p>\n";
             title_list1 += "    </div>\n";
             title_list1 += "    <div class='contentBlock'>\n";
@@ -45,17 +83,14 @@
             title_list1 += "    <footer>Read More >></footer>\n";
             title_list1 += "</div>\n";
             title_list2 += "<tr>\n";
-            title_list2 += "    <td>" + rs.getString("Title") + "</td>\n";
-            title_list2 += "    <td>" + rs.getString("ATime") + "</td>\n";
+            title_list2 += "    <td>" + title + "</td>\n";
+            title_list2 += "    <td>" + ATime + "</td>\n";
             title_list2 += "    <td>\n";
             title_list2 += "        <form action='edit.jsp' method='post'>\n";
             title_list2 += "            <input name='ATime' type='hidden' value='" + ATime + "'>\n";
             title_list2 += "            <input type='submit' class='editButton' name='edit' value='编&nbsp;&nbsp;辑'>\n";
             title_list2 += "        </form> \n";
-            title_list2 += "        <form action='delete.jsp' method='post' onsubmit='return checkDelete(this)'>\n";
-            title_list2 += "            <input name='home.jsp' type='hidden'>\n";
-            title_list2 += "            <input name = '100' type = 'hidden'>\n";
-            title_list2 += "            <input name='Article' type='hidden'>\n";
+            title_list2 += "        <form action='home.jsp' method='post' onsubmit='return checkDelete(this)'>\n";
             title_list2 += "            <input name='ATime' type='hidden' value='" + ATime + "'>\n";
             title_list2 += "            <input type='submit' class='deleteButton' name='delete' value='删&nbsp;&nbsp;除'>\n";
             title_list2 += "        </form>\n";
@@ -139,7 +174,7 @@
                         <input type="button" class="manageButton" onclick="manageArticle(true)" value="管理"/>
                     </div>
                     <div style="clear:both"></div>
-                    <%=title_list1%>
+<%=title_list1%>
                     <div><%=msg%></div>
                     <!--
                     <div class="pageBottonDiv">
@@ -158,7 +193,7 @@
                             <th>时间</th>
                             <th>操作</th>
                         </tr>
-                        <%=title_list2%>
+<%=title_list2%>
                     </table>
                     <div><%=msg%></div>
                 </div>

@@ -23,17 +23,20 @@
         	String TName = rs.getString("TName");
         	tag_list += "<a class='tag' href='tags.jsp?tag=" + TName +  "'>" + TName + "</a>\n";
         }
-        if (request.getParameter("tag") != null)
+        rs.close();
+        String TName = request.getParameter("tag");
+        out.println(TName);
+        if (TName != null)
         {
-            sql = "select * from Article, Text where Article.ATime=Text.ATime";
+            sql = "select * from Article, Text, Tag where TName='" + TName + "' and Article.ATime=Tag.ATime and Article.ATime=Text.ATime";
             rs = stmt.executeQuery(sql);
-            DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+            DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
             DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
             title_list += "<h1>相关文章</h1>\n";
             title_list += "<div class='titleList' id='titleList1'>\n";
             while(rs.next())
             {
-                String ATime = rs.getString("ATime");
+                String ATime = LocalDateTime.parse(rs.getString("ATime").replace(" ", "T")).format(idf);
                 title_list += "<div class='titleBlockDiv' onclick=\"openWebpage('article.jsp?ATime=" + ATime + "')\">\n";
                 title_list += "    <div class='titleBlock'>\n";
                 title_list += "        <h2>" + rs.getString("Title") + "</h2>\n";
@@ -124,13 +127,12 @@
                 <h1>标签</h1>
                 <div class="tagList">
                     <div class="tagBlock">
-                    	<%=tag_list%>
+<%=tag_list%>
                     </div>
                 </div>
-                
-                <%=title_list%>
+<%=title_list%>
             </div>
-            
+<%=msg%>            
         </div>
         
         <script>
