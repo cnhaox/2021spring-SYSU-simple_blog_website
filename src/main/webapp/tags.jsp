@@ -25,7 +25,6 @@
         }
         rs.close();
         String TName = request.getParameter("tag");
-        out.println(TName);
         if (TName != null)
         {
             sql = "select * from Article, Text, Tag where TName='" + TName + "' and Article.ATime=Tag.ATime and Article.ATime=Text.ATime";
@@ -46,7 +45,7 @@
                 title_list += "        <p id='titleContent" + ATime + "' class='titleContent'></p>\n";
                 title_list += "        <script>\n";
                 title_list += "            var abstract = marked(\n";
-                title_list += "`" + rs.getString("AContent") + "`\n";
+                title_list += "`" + rs.getString("AContent").replace("\\", "\\\\").replace("`", "\\`") + "`\n";
                 title_list += "            );\n";
                 title_list += "            abstract = abstract.replaceAll(/<[^>]+>/g, '').replaceAll(/\\n/g, ' ').slice(0, 200) + '&hellip;';\n";
                 title_list += "            document.getElementById('titleContent" + ATime + "').innerHTML = abstract;\n";
@@ -83,6 +82,7 @@
                 top: -60px;
             }
         </style>
+        <script src="js/marked.js"></script>
     </head>
     <body>
         <div id="blogCover" style="display: none;opacity: 1;">
