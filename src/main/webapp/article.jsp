@@ -247,6 +247,26 @@
         </div>
         <div><%=msg%></div>
         
+        <script src="katex/katex.min.js"></script>
+        <script src="js/marked.js"></script>
+        <script src="highlight/highlight.min.js"></script>
+        <script>
+            marked.setOptions({
+              highlight: function(code, lang) {
+                if (typeof lang === 'undefined') {
+                  return hljs.highlightAuto(code).value;
+                } else if (lang === 'nohighlight') {
+                  return code;
+                } else {
+                  return hljs.highlight(lang, code).value;
+                }
+              },
+              kaTex: katex
+            });
+            document.getElementById('article-body').innerHTML = marked(
+`<%=content.replace("\\", "\\\\").replace("`", "\\`")%>`
+            )
+        </script>
         <script>
             window.onscroll = function() {
                 var sl=0-Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
@@ -295,26 +315,6 @@
                 else
                     return false;
             }
-        </script>
-        <script src="katex/katex.min.js"></script>
-        <script src="js/marked.js"></script>
-        <script src="highlight/highlight.min.js"></script>
-        <script>
-            marked.setOptions({
-              highlight: function(code, lang) {
-                if (typeof lang === 'undefined') {
-                  return hljs.highlightAuto(code).value;
-                } else if (lang === 'nohighlight') {
-                  return code;
-                } else {
-                  return hljs.highlight(lang, code).value;
-                }
-              },
-              kaTex: katex
-            });
-            document.getElementById('article-body').innerHTML = marked(
-`<%=content.replace("\\", "\\\\").replace("`", "\\`")%>`
-            )
         </script>
     </body>
 </html>
