@@ -26,6 +26,9 @@ br.close();
 // 上传文件
 boolean isMultipart = ServletFileUpload.isMultipartContent(request);//是否用multipart提交的
 String dir = application.getRealPath("files") + System.getProperty("file.separator");
+File tmp = new File(dir);
+if (!tmp.exists())
+	tmp.mkdir();
 if (isMultipart) {
     FileItemFactory factory = new DiskFileItemFactory();
     ServletFileUpload upload = new ServletFileUpload(factory);
