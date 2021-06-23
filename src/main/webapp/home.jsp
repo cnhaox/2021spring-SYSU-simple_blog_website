@@ -74,7 +74,7 @@
             title_list1 += "        <p id='titleContent" + ATime + "' class='titleContent'></p>\n";
             title_list1 += "        <script>\n";
             title_list1 += "            var abstract = marked(\n";
-            title_list1 += "`" + rs.getString("AContent") + "`\n";
+            title_list1 += "`" + rs.getString("AContent").replace("\\", "\\\\").replace("`", "\\`") + "`\n";
             title_list1 += "            );\n";
             title_list1 += "            abstract = abstract.replaceAll(/<[^>]+>/g, '').replaceAll(/\\n/g, ' ').slice(0, 200) + '&hellip;';\n";
             title_list1 += "            document.getElementById('titleContent" + ATime + "').innerHTML = abstract;\n";
@@ -122,7 +122,7 @@
                 top: -0px;
             }
         </style>
-        <script src="./js/marked.min.js"></script>
+        <script src="js/marked.js"></script>
     </head>
     <body>
         <div id="leftPart">

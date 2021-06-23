@@ -154,6 +154,8 @@
         <link rel="stylesheet" type="text/css" href="css/comment.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="css/article.css" />
+        <link rel="stylesheet" type="text/css" href="katex/katex.min.css" />
+        <link rel="stylesheet" type="text/css" href="highlight/styles/default.min.css">
         <style>
             .menuChecked {
                 top: 0px;
@@ -294,10 +296,24 @@
                     return false;
             }
         </script>
-        <script src="./js/marked.min.js"></script>
+        <script src="katex/katex.min.js"></script>
+        <script src="js/marked.js"></script>
+        <script src="highlight/highlight.min.js"></script>
         <script>
+            marked.setOptions({
+              highlight: function(code, lang) {
+                if (typeof lang === 'undefined') {
+                  return hljs.highlightAuto(code).value;
+                } else if (lang === 'nohighlight') {
+                  return code;
+                } else {
+                  return hljs.highlight(lang, code).value;
+                }
+              },
+              kaTex: katex
+            });
             document.getElementById('article-body').innerHTML = marked(
-`<%=content%>`
+`<%=content.replace("\\", "\\\\").replace("`", "\\`")%>`
             )
         </script>
     </body>

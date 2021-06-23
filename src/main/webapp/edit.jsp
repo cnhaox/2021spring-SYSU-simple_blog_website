@@ -90,12 +90,12 @@
                     	if (mode_is_update)
                     	{
                             fmt = "update Text set AContent='%s' where ATime='%s'";
-                            sql = String.format(fmt, content, ATime);
+                            sql = String.format(fmt, content.replace("\\", "\\\\"), ATime);
                     	}
                         else
                         {
                             fmt = "insert into Text values('%s', '%s')";
-                            sql = String.format(fmt, ATime, content);
+                            sql = String.format(fmt, ATime, content.replace("\\", "\\\\"));
                         }
                         int cnt = stmt.executeUpdate(sql);
                         if (cnt > 0)
@@ -367,6 +367,7 @@
                     <p><span>正文</span>：</p>
                     <textarea form="newArticle" name="article" placeholder="请在此处使用MarkDown语法输入正文内容。（插入图片时先上传图片，然后使用上述列表展示的图片路径）"><%=content%></textarea>
                 </div>
+
                 <div class="edit-container-submit">
                 	<input name="ATime" value="<%=ATime%>" type="hidden" form="newArticle">
                     <input type="button" class="manageButton" onclick="openWebpage('home.jsp')" value="取消"/>
