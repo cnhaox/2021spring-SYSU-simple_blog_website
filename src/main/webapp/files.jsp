@@ -6,6 +6,10 @@
 <%request.setCharacterEncoding("utf-8");%>
 <% String path = application.getRealPath("info");
 File file = new File(path,"files.txt");
+if (!file.getParentFile().exists())
+    file.getParentFile().mkdir();
+if (!file.exists())
+    file.createNewFile();
 ArrayList<String> files = new ArrayList<>();
 
 // 读取目录

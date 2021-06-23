@@ -3,7 +3,11 @@ contentType="text/html; charset=utf-8" %>
 <%request.setCharacterEncoding("utf-8");
 	String path = application.getRealPath("info");
 	File file = new File(path,"per_info.txt");
-	Dictionary<String, String> info = new Hashtable<String, String>();
+	if (!file.getParentFile().exists())
+	    file.getParentFile().mkdir();
+	if (!file.exists())
+	    file.createNewFile();
+	Map<String, String> info = new HashMap<String, String>();
 	if (file.exists()) {
 		FileInputStream ch = new FileInputStream(file);
 		InputStreamReader fr = new InputStreamReader(ch,"UTF-8");
