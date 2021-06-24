@@ -18,6 +18,9 @@
     font-weight: bold;
 }
 
+#article-body * {
+    margin: 1em 0px;
+}
 
 #article-body {
     margin: 0 auto;
