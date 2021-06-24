@@ -85,6 +85,7 @@
             }
             dir.delete();
         }
+        sql +=  " order by Article.ATime desc";
         ResultSet rs = stmt.executeQuery(sql);
         DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         DateTimeFormatter odf1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
