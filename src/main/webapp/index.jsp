@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*,java.io.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-<%@ page import="javax.swing.JOptionPane"%>
 <%
     request.setCharacterEncoding("utf-8");
     String userType = (String)session.getAttribute("userType");
@@ -8,6 +7,7 @@
         session.setAttribute("userType", "visitor");
         response.sendRedirect("home.jsp");
     }
+    boolean isWrong = false;
     if (request.getParameter("submit2")!=null)
     {
         String password = request.getParameter("password");
@@ -17,7 +17,7 @@
             response.sendRedirect("home.jsp");
         }
         else
-        	JOptionPane.showMessageDialog(null, "密码错误！", "error", JOptionPane.PLAIN_MESSAGE);
+        	isWrong = true;
     }
 %>
 <!DOCTYPE html>
@@ -73,6 +73,9 @@
         {
             window.history.replaceState( null, null, window.location.href );
         }
+        <% if (isWrong) {%>
+            alert("密码错误! ");
+        <%} %>
     </script>
 </body>
 </html>
