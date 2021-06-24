@@ -149,8 +149,7 @@ body {
 #mainPart {
     position: absolute;
     min-height: 100%;
-    min-width: 600px;
-    max-width: 1000px;
+    min-width: 900px;
     top: 0px;
     left: 360px;
     background-color: rgba(255,255,255,0.8);

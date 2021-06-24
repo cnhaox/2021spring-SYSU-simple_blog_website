@@ -16,6 +16,7 @@
 }
 .titleListDiv {
     position: relative;
+    max-width: 1000px;
     margin: 100px 50px;
 }
 .titleList {
