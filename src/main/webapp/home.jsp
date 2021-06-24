@@ -87,7 +87,8 @@
         }
         ResultSet rs = stmt.executeQuery(sql);
         DateTimeFormatter idf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-        DateTimeFormatter odf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
+        DateTimeFormatter odf1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
+        DateTimeFormatter odf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         while(rs.next())
         {
             String ATime = LocalDateTime.parse(rs.getString("ATime").replace(" ", "T")).format(idf);
@@ -95,7 +96,7 @@
             title_list1 += "<div class='titleBlockDiv' onclick=\"openWebpage('article.jsp?ATime=" + ATime + "')\">\n";
             title_list1 += "    <div class='titleBlock'>\n";
             title_list1 += "        <h2>" + title + "</h2>\n";
-            title_list1 += "        <p class=titleMessage>@" + rs.getString("Author") + "&nbsp;|&nbsp;" + LocalDateTime.parse(ATime,idf).format(odf) + "</p>\n";
+            title_list1 += "        <p class=titleMessage>@" + rs.getString("Author") + "&nbsp;|&nbsp;" + LocalDateTime.parse(ATime,idf).format(odf1) + "</p>\n";
             title_list1 += "    </div>\n";
             title_list1 += "    <div class='contentBlock'>\n";
             title_list1 += "        <p id='titleContent" + ATime + "' class='titleContent'></p>\n";
@@ -111,7 +112,7 @@
             title_list1 += "</div>\n";
             title_list2 += "<tr>\n";
             title_list2 += "    <td>" + title + "</td>\n";
-            title_list2 += "    <td>" + ATime + "</td>\n";
+            title_list2 += "    <td>" + LocalDateTime.parse(ATime,idf).format(odf2) + "</td>\n";
             title_list2 += "    <td>\n";
             title_list2 += "        <form action='edit.jsp' method='post'>\n";
             title_list2 += "            <input name='ATime' type='hidden' value='" + ATime + "'>\n";
