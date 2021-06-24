@@ -11,10 +11,10 @@ contentType="text/html; charset=utf-8" %>
 <%request.setCharacterEncoding("utf-8");
 	String path = application.getRealPath("info");
 	File file = new File(path,"per_info.txt");
-	//if (!file.getParentFile().exists())
-	//    file.getParentFile().mkdir();
-	//if (!file.exists())
-	//    file.createNewFile();
+	if (!file.getParentFile().exists())
+	    file.getParentFile().mkdir();
+	if (!file.exists())
+	    file.createNewFile();
 	Map<String, String> info = new HashMap<String, String>();
 	if (file.exists()) {
 		FileInputStream ch = new FileInputStream(file);
@@ -74,6 +74,13 @@ contentType="text/html; charset=utf-8" %>
                 top: -180px;
             }
         </style>
+        
+        <script>
+            if ( window.history.replaceState )
+            {
+                window.history.replaceState( null, null, window.location.href );
+            }
+        </script>
     </head>
     <body>
         <div id="leftPart">
