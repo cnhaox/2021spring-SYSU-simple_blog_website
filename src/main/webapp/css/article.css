@@ -18,7 +18,19 @@
     font-weight: bold;
 }
 
-#article-body * {
+#article-body h1,
+#article-body h2,
+#article-body h3,
+#article-body h4,
+#article-body h5,
+#article-body h6,
+#article-body div,
+#article-body table,
+#article-body pre,
+#article-body code,
+#article-body p,
+#article-body img,
+#article-body video {
     margin: 1em 0px;
 }
 
