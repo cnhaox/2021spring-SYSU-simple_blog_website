@@ -47,18 +47,17 @@
     String folder_name = "";
     String path_name = "";
 	String img_table = "";
-    boolean isPost = false;
+    boolean isMultipart = false;
     boolean isPostSuccess = false;
     if (request.getMethod().equalsIgnoreCase("post"))
     {
-        isPost = true;
         mode = "updateArticle";
         String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
         String user = "user";
         String pwd = "123";
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         request.setCharacterEncoding("utf-8");
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request); // 是否用multipart提交的?
+        isMultipart = ServletFileUpload.isMultipartContent(request); // 是否用multipart提交的?
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
@@ -324,12 +323,12 @@
                 top: -0px;
             }
         </style>
-        <script>
+        <!--<script>
             if ( window.history.replaceState )
             {
                 window.history.replaceState( null, null, window.location.href );
             }
-        </script>
+        </script>-->
     <body>
         <div id="leftPart">
             <div id="nameContainer">
@@ -529,9 +528,10 @@
                 else
                     return false;
             }
-            <% if (isPost) { %>
+            <% if (isMultipart) { %>
             <%     if (isPostSuccess) { %>
-                alert("发布成功!")
+                alert("发布成功!");
+                window.location.href = "home.jsp";
             <% } else { %>
                 alert("发布失败!");
             <% } } %>
