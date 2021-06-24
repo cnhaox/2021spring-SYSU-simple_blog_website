@@ -47,8 +47,11 @@
     String folder_name = "";
     String path_name = "";
 	String img_table = "";
+    boolean isPost = false;
+    boolean isPostSuccess = false;
     if (request.getMethod().equalsIgnoreCase("post"))
     {
+        isPost = true;
         mode = "updateArticle";
         String connectString = "jdbc:mysql://localhost:3306/blog_18308045?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
         String user = "user";
@@ -297,6 +300,7 @@
                 img_table += "    </td>\n";
                 img_table += "</tr>\n";
             }
+            isPostSuccess = true;
         }
         catch (Exception e)
         {
@@ -525,6 +529,12 @@
                 else
                     return false;
             }
+            <% if (isPost) { %>
+            <%     if (isPostSuccess) { %>
+                alert("发布成功!")
+            <% } else { %>
+                alert("发布失败!");
+            <% } } %>
         </script>
     </body>
 </html>
