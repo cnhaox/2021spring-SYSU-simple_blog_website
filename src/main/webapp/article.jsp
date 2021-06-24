@@ -294,8 +294,6 @@
             document.getElementById('article-body').innerHTML = marked(
 `<%=content.replace("\\", "\\\\").replace("`", "\\`")%>`
             )
-        </script>
-        <script>
             window.onscroll = function() {
                 var sl=0-Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
                 var style = document.defaultView.getComputedStyle(document.getElementById('leftPart'));  
@@ -313,6 +311,8 @@
                 document.getElementById('mainPart').style.left = (360+cl)+'px';
             }
             window.onresize();
+        </script>
+        <script>
             function openWebpage(path) {
                 window.location.href = path;
             }

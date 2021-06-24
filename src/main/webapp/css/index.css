@@ -44,11 +44,12 @@
     border-left: solid 1px #ffffff;
     width: 200px;
     cursor: pointer;
+    overflow: hidden;
 }
 #nav ul li:first-child {
     border-left: 0;
 }
-#nav ul li a {
+#nav ul li a, #nav ul li label {
     display: block;
     height: 2.9rem;
     line-height: 2.75rem;
@@ -58,12 +59,13 @@
     font-size: 1rem;
     color: #ffffff;
     text-decoration: none;
+    overflow: hidden;
     cursor: pointer;
 }
-#nav ul li a:hover {
+#nav ul li a:hover, #nav ul li label:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
-#nav ul li a:active {
+#nav ul li a:active, #nav ul li label:active {
     background-color: rgba(255, 255, 255, 0.25);
 }
 #footer {

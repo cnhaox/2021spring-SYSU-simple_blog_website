@@ -2,9 +2,12 @@
 <%
     request.setCharacterEncoding("utf-8");
     String userType = (String)session.getAttribute("userType");
-    if (userType==null)
+    if (request.getParameter("submit1")!=null)
+    {
         session.setAttribute("userType", "visitor");
-    if (request.getParameter("submit")!=null)
+        response.sendRedirect("home.jsp");
+    }
+    if (request.getParameter("submit2")!=null)
     {
         String password = request.getParameter("password");
         if (password.equals("123"))
@@ -23,19 +26,26 @@
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 <style>
 </style>
+<script>
+    if ( window.history.replaceState )
+    {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 </head>
 <body>
     <div id="shadow"></div>
     <div id="title">Welcome To My Blog !</div>
     <div id="nav">
         <ul>
-            <li><a href="home.jsp">游客入口</a></li>
+            <li><label for="submit1" style="cursor:pointer;">游客入口</label></li>
             <li id="managerEntry"><a onclick="displayPasswordDiv(true)" style="cursor:pointer;">管理员入口</a></li>
         </ul>
         <div id="passwordDiv">
             <form action="index.jsp" method="post">
                 <input type="password" name="password" placeholder="请输入密码（默认：123）">
-                <input type="submit" name="submit" value="确&nbsp;&nbsp;认">
+                <input type="submit" name="submit2" value="确&nbsp;&nbsp;认">
+                <input type="submit" class="hidden" name="submit1" id="submit1" value="游客">
             </form> 
         </div>
     </div>
