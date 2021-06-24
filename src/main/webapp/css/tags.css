@@ -1,5 +1,6 @@
 .tagListDiv {
     position: relative;
+    max-width: 800px;
     margin: 100px 50px;
 }
 .tagList {
