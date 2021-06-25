@@ -52,6 +52,7 @@ create table Subcomment
     foreign key(ATime) references Article(ATime) on delete cascade,
     primary key(STime, CTime, ATime)
 );
+
 create user 'user'@'%' identified by '123';
 grant all privileges on blog_18308045.* to 'user'@'%' identified by '123';
 flush  privileges;
@@ -243,7 +244,7 @@ $$
 您的浏览器不支持Video标签。
 </video>');
 
-insert into Article values("2021-06-25 02:56:16.687000", "数电实验13", "cnhaox");
+insert into Article values("2021-06-25 02:56:16.687000", "Hello World! 个人博客指北（持续更新中）", "cnhaox");
 insert into Tag values("hello world", "2021-06-25 02:56:16.687000");
 insert into Tag values("勿删勿改！", "2021-06-25 02:56:16.687000");
 insert into Text values("2021-06-25 02:56:16.687000", '> 这是本项目的民间指北说明，收集了关于这个项目的方方面面，包括常见问题与使用教程。
@@ -322,7 +323,7 @@ int main()
 def main():
     for i in range(10):
         print("Hello World!")
-if __name__=='__main__':
+if __name__==''__main__'':
     main()
 ```
 ##### 公式：
@@ -330,14 +331,14 @@ if __name__=='__main__':
 latex公式语法同样支持，可以写公式块！
 ```
 $$
-\begin{align}
-f(x)&=\begin{cases}
-\sum\limits_{i=1}^{x}i\\
-\frac{1}{\sqrt{\mathop{softmax}(x)}}\\
-\end{cases}\\
-g(x)&=\prod\limits_{i=1}^{i=10}\cos(\pi^i)\\
-h(x)&=\int_{0}^{x}y \text{d}y
-\end{align}
+\\begin{align}
+f(x)&=\\begin{cases}
+\\sum\\limits_{i=1}^{x}i\\\\
+\\frac{1}{\\sqrt{\\mathop{softmax}(x)}}\\\\
+\\end{cases}\\\\
+g(x)&=\\prod\\limits_{i=1}^{i=10}\\cos(\\pi^i)\\\\
+h(x)&=\\int_{0}^{x}y \\text{d}y
+\\end{align}
 $$
 ```
 
@@ -381,7 +382,7 @@ $$
 
 + 浏览器第一次打开这个博客网站时的任意网页，都会强制进入index.jsp，进行用户身份选择；
 + 游客只有查看博客内容、发表评论和下载文件的权限；管理员相比游客，额外拥有管理文章和文件、编辑个人信息权限；
-+ 在使用markdown编辑文章的时候，公式输入与常规markdown语法略有不同。行内公式使用 \`$公式$\` 的方式输入；公式块使用\`\`\`$$公式$$\`\`\`的方式输入；
++ 在使用markdown编辑文章的时候，公式输入与常规markdown语法略有不同。行内公式使用 \\`$公式$\\` 的方式输入；公式块使用\\`\\`\\`$$公式$$\\`\\`\\`的方式输入；
 + 在文章插入图片、音乐等多媒体资源时，先在文章编辑界面上传资源文件，然后使用文件对应显示的路径；
 
 ## 是否有使用Tips？
@@ -406,4 +407,4 @@ $$
 
 ![不给！](img/2021-06-25T025616.687000/special_week2.jpeg)
 
-好吧，事实上，在本次课程结束后，~~lite版~~（并没有影射某个操作系统的意思）整个项目代码会在GitHub上开源。敬请期待。')
+好吧，事实上，在本次课程结束后，~~lite版~~（并没有影射某个操作系统的意思）整个项目代码会在GitHub上开源。敬请期待。');
