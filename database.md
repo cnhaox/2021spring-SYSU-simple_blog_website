@@ -1,5 +1,3 @@
-# simple-blog-website
-
 ## 部署
 
 src/init.sql
